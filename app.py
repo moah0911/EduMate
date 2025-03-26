@@ -945,10 +945,10 @@ def show_login_page():
 def show_register_page():
     st.title("Register for EduMate")
     
-    # Remove any CSS that might be affecting form inputs
+    # More comprehensive CSS fixes for password fields
     st.markdown("""
     <style>
-    /* Ensure password fields are fully visible and interactive */
+    /* Comprehensive fix for password fields */
     input[type="password"],
     div:has(> input[type="password"]) {
         opacity: 1 !important;
@@ -956,6 +956,26 @@ def show_register_page():
         min-height: unset !important;
         visibility: visible !important;
         display: block !important;
+        pointer-events: auto !important;
+    }
+    
+    /* Fix parent containers of password fields */
+    div:has(input[type="password"]) {
+        opacity: 1 !important;
+        height: auto !important;
+        min-height: unset !important;
+        visibility: visible !important;
+        display: block !important;
+        pointer-events: auto !important;
+    }
+    
+    /* Ensure proper styles for parent elements */
+    .stTextInput > div {
+        position: relative !important;
+        flex: 1 1 0% !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -966,8 +986,9 @@ def show_register_page():
         username = st.text_input("Username (must be unique)")
         date_of_birth = st.date_input("Date of Birth")
         
-        # Fix password field
-        password = st.text_input("Password", type="password", key="register_password")
+        # Use a more direct approach for the password field
+        password_container = st.empty()
+        password = password_container.text_input("Password", type="password", key="register_password")
         
         role = st.selectbox("Role", ["teacher", "student"])
         submit = st.form_submit_button("Register")
