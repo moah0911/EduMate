@@ -182,17 +182,21 @@ def load_data(file_name):
     with open(f'data/{file_name}.json', 'r') as f:
         return json.load(f)
 
-def save_data(data, file_name):
-    # Handle cases where parameters might be passed in reverse order
-    # This happens due to inconsistent usage in show_course_announcements.py
+def save_data(file_name, data):
+    """Save data to a JSON file with consistent parameter order
+    file_name: the name of the file without extension
+    data: the data to save
+    """
+    # Handle cases where parameters might be passed in reversed order
     if isinstance(file_name, list) and isinstance(data, str):
         # Parameters are in reversed order, swap them
-        data, file_name = file_name, data
+        file_name, data = data, file_name
         
     # Ensure data directory exists
     import os
     os.makedirs('data', exist_ok=True)
     
+    # Save the data
     with open(f'data/{file_name}.json', 'w') as f:
         json.dump(data, f, indent=4)
 
@@ -268,28 +272,21 @@ def login_user(login_id, password):
 def create_course(name, description, teacher_id, start_date, end_date, code=None):
     courses = load_data('courses')
     
-    # Generate a unique code if not provided
-    if not code:
-        code = generate_unique_course_code()
-    # Check if course code already exists
-    elif any(course.get('code', '') == code for course in courses):
-        return False, "Course code already exists"
-    
-    # Create new course
+    # Create new course without unique code
     new_course = {
         'id': len(courses) + 1,
         'name': name,
-        'code': code,
         'description': description,
         'teacher_id': teacher_id,
         'start_date': start_date,
         'end_date': end_date,
+        'students': [],
+        'pending_requests': [],  # New field for pending join requests
         'created_at': datetime.now().isoformat(),
-        'students': []
     }
     
     courses.append(new_course)
-    save_data(courses, 'courses')
+    save_data('courses', courses)
     return True, new_course
 
 def get_teacher_courses(teacher_id):
@@ -300,6 +297,77 @@ def get_student_courses(student_id):
     courses = load_data('courses')
     return [course for course in courses if student_id in course['students']]
 
+def request_to_join_course(course_id, student_id):
+    """Student requests to join a course, requiring teacher approval"""
+    courses = load_data('courses')
+    
+    for course in courses:
+        if course['id'] == course_id:
+            # Check if student is already in the course
+            if student_id in course.get('students', []):
+                return False, "You are already enrolled in this course"
+                
+            # Check if student already has a pending request
+            if student_id in course.get('pending_requests', []):
+                return False, "You already have a pending request to join this course"
+                
+            # Add student to pending requests
+            if 'pending_requests' not in course:
+                course['pending_requests'] = []
+            course['pending_requests'].append(student_id)
+            
+            save_data('courses', courses)
+            return True, "Join request sent. Waiting for teacher approval."
+    
+    return False, "Course not found"
+
+def approve_join_request(course_id, student_id, teacher_id):
+    """Teacher approves a student's request to join a course"""
+    courses = load_data('courses')
+    
+    for course in courses:
+        if course['id'] == course_id:
+            # Verify the approving user is the teacher of this course
+            if course['teacher_id'] != teacher_id:
+                return False, "Only the course teacher can approve join requests"
+                
+            # Check if student has a pending request
+            if student_id not in course.get('pending_requests', []):
+                return False, "No pending request found for this student"
+                
+            # Remove from pending and add to enrolled students
+            course['pending_requests'].remove(student_id)
+            if 'students' not in course:
+                course['students'] = []
+            course['students'].append(student_id)
+            
+            save_data('courses', courses)
+            return True, "Student added to course successfully"
+    
+    return False, "Course not found"
+
+def reject_join_request(course_id, student_id, teacher_id):
+    """Teacher rejects a student's request to join a course"""
+    courses = load_data('courses')
+    
+    for course in courses:
+        if course['id'] == course_id:
+            # Verify the rejecting user is the teacher of this course
+            if course['teacher_id'] != teacher_id:
+                return False, "Only the course teacher can reject join requests"
+                
+            # Check if student has a pending request
+            if student_id not in course.get('pending_requests', []):
+                return False, "No pending request found for this student"
+                
+            # Remove from pending requests
+            course['pending_requests'].remove(student_id)
+            
+            save_data('courses', courses)
+            return True, "Join request rejected"
+    
+    return False, "Course not found"
+
 def enroll_student(course_id, student_id):
     courses = load_data('courses')
     
@@ -307,7 +375,8 @@ def enroll_student(course_id, student_id):
         if course['id'] == course_id:
             if student_id not in course['students']:
                 courses[i]['students'].append(student_id)
-                save_data(courses, 'courses')
+                # Fix parameter order: filename first, then data
+                save_data('courses', courses)
                 return True, "Enrolled successfully"
             else:
                 return False, "Already enrolled"
@@ -322,7 +391,8 @@ def join_course_by_code(course_code, student_id):
         if course.get('code', '') == course_code:
             if student_id not in course['students']:
                 courses[i]['students'].append(student_id)
-                save_data(courses, 'courses')
+                # Fix parameter order: filename first, then data
+                save_data('courses', courses)
                 return True, "Joined course successfully"
             else:
                 return False, "Already enrolled in this course"
@@ -2176,7 +2246,7 @@ def show_student_dashboard():
                 else:
                     # Standardize code format before checking
                     formatted_code = course_code.strip().upper()
-                    success, message = join_course_by_code(formatted_code, st.session_state.current_user['id'])
+                    success, message = request_to_join_course(formatted_code, st.session_state.current_user['id'])
                     if success:
                         st.success(message)
                         st.rerun()
