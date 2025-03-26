@@ -945,28 +945,15 @@ def show_login_page():
 def show_register_page():
     st.title("Register for EduMate")
     
-    # Simple form with a basic password field and checkbox
+    # Simple form with a basic password field
     with st.form("register_form"):
         name = st.text_input("Full Name")
         email = st.text_input("Email")
         username = st.text_input("Username (must be unique)")
         date_of_birth = st.date_input("Date of Birth")
         
-        # Store password value in session state
-        if 'password_value' not in st.session_state:
-            st.session_state.password_value = ""
-            
-        # Simple show/hide password checkbox inside the form
-        show_password = st.checkbox("Show password")
-        
-        # Password field that changes type based on checkbox
-        if show_password:
-            password = st.text_input("Password", value=st.session_state.password_value, key="pwd_visible")
-        else:
-            password = st.text_input("Password", value=st.session_state.password_value, type="password", key="pwd_hidden")
-            
-        # Store password in session state
-        st.session_state.password_value = password
+        # Just a normal text input field - no password type or masking
+        password = st.text_input("Password", key="simple_password_field")
         
         role = st.selectbox("Role", ["teacher", "student"])
         submit = st.form_submit_button("Register")
