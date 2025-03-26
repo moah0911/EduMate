@@ -945,14 +945,28 @@ def show_login_page():
 def show_register_page():
     st.title("Register for EduMate")
     
+    # Import datetime here to use for date range
+    import datetime
+    
     # Simple form with a basic password field
     with st.form("register_form"):
         name = st.text_input("Full Name")
         email = st.text_input("Email")
         username = st.text_input("Username (must be unique)")
-        date_of_birth = st.date_input("Date of Birth")
         
-        # Just a normal text input field - no password type or masking
+        # Set date of birth with year range from 1900 to 2020
+        min_date = datetime.date(1900, 1, 1)
+        max_date = datetime.date(2020, 12, 31)
+        default_date = datetime.date(2000, 1, 1)
+        
+        date_of_birth = st.date_input(
+            "Date of Birth",
+            value=default_date,
+            min_value=min_date,
+            max_value=max_date
+        )
+        
+        # Just a normal text input field for password
         password = st.text_input("Password", key="simple_password_field")
         
         role = st.selectbox("Role", ["teacher", "student"])
