@@ -1,4 +1,4 @@
-# Flask and extensions
+# Core Framework
 Flask==2.3.3
 Flask-SQLAlchemy==3.1.1
 Flask-Migrate==4.0.5
@@ -6,31 +6,50 @@ Flask-JWT-Extended==4.5.3
 Flask-Cors==4.0.0
 Flask-RESTful==0.3.10
 Flask-Limiter==3.11.0
+Flask-Babel==3.1.0
+Werkzeug==2.3.7
+waitress==2.1.2
 
-# Database - Updated for Python 3.13 compatibility
+# Database 
 SQLAlchemy==2.0.27
 typing_extensions>=4.9.0
 
-# AI and ML
+# UI Framework
+streamlit==1.31.1
+
+# Data Processing
+pandas==2.2.0
+numpy==1.26.2
+matplotlib==3.7.1
+seaborn==0.13.0
+networkx==3.2.1
+scikit-learn==1.4.0
+
+# Document Processing
+python-docx==1.1.0
+PyPDF2==3.0.1 
+PyMuPDF==1.23.6  # fitz
+fpdf==1.7.2
+Pillow==10.1.0
+
+# NLP and AI
+nltk==3.8.1
 google-generativeai==0.3.1
 openai==1.3.5
+vertexai==0.0.1
 
-# Server
-waitress==2.1.2
-
-# Security
-Werkzeug==2.3.7
+# Audio Processing
+SpeechRecognition==3.10.0
+gTTS==2.3.2
 
 # Utilities
 python-dotenv==1.0.0
 python-dateutil==2.8.2
 requests==2.31.0
+uuid==1.30
 
-# Internationalization
-Flask-Babel==3.1.0
-matplotlib==3.7.1
-
-# Optional dependencies (uncomment if needed)
-# opencv-python-headless==4.8.1.78
-# nltk==3.8.1
-# PyPDF2==3.0.1 
+# Security
+cryptography==41.0.5
+bcrypt==4.0.1
+# Files and I/O
+zipfile36==0.1.3
