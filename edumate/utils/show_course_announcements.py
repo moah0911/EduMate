@@ -50,7 +50,7 @@ def show_course_announcements(course, load_data_func=None, save_data_func=None):
                         
                         announcements.append(new_announcement)
                         if save_data_func:
-                            save_data_func('announcements', announcements)
+                            save_data_func(announcements, 'announcements')
                             st.success("Announcement posted successfully!")
                             st.rerun()
                         else:
@@ -102,12 +102,12 @@ def show_course_announcements(course, load_data_func=None, save_data_func=None):
                                 ann['is_pinned'] = not ann.get('is_pinned', False)
                                 break
                         if save_data_func:
-                            save_data_func('announcements', announcements)
+                            save_data_func(announcements, 'announcements')
                             st.rerun()
                 with col2:
                     if st.button("🗑️", key=f"delete_announcement_{announcement['id']}"):
                         filtered_announcements = [a for a in announcements if a['id'] != announcement['id']]
                         if save_data_func:
-                            save_data_func('announcements', filtered_announcements)
+                            save_data_func(filtered_announcements, 'announcements')
                             st.success("Announcement deleted")
                             st.rerun()

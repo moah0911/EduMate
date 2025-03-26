@@ -183,6 +183,16 @@ def load_data(file_name):
         return json.load(f)
 
 def save_data(data, file_name):
+    # Handle cases where parameters might be passed in reverse order
+    # This happens due to inconsistent usage in show_course_announcements.py
+    if isinstance(file_name, list) and isinstance(data, str):
+        # Parameters are in reversed order, swap them
+        data, file_name = file_name, data
+        
+    # Ensure data directory exists
+    import os
+    os.makedirs('data', exist_ok=True)
+    
     with open(f'data/{file_name}.json', 'w') as f:
         json.dump(data, f, indent=4)
 
@@ -1187,8 +1197,6 @@ def show_teacher_tools():
             for template in lesson_templates:
                 with st.expander(template.get('name', 'Unnamed Template')):
                     st.write(f"**Description:** {template.get('description', 'No description available.')}")
-                    st.write(f"**Subject:** {template.get('subject', 'General')}")
-                    st.write(f"**Grade Level:** {template.get('grade_level', 'All levels')}")
                     
                     # Display template structure
                     if template.get('structure'):
@@ -1729,8 +1737,8 @@ By the end of this lesson, students will be able to:
                 quiz_data = st.session_state.quiz_data
                 st.download_button(
                     label="Download Quiz",
-                    data=f"# {quiz_data['topic']} Quiz\n\nSubject: {quiz_data['subject']}\nDifficulty: {quiz_data['level']}\nTotal Questions: {quiz_data['num_questions']}\n\n...",
-                    file_name=f"{quiz_data['subject']}_{quiz_data['topic']}_quiz.txt",
+                    data=f"# {quiz_data['topic']} Quiz\n\nDifficulty: {quiz_data['level']}\nTotal Questions: {quiz_data['num_questions']}\n\n...",
+                    file_name=f"{quiz_data['topic'].replace(' ', '_')}_quiz.txt",
                     mime="text/plain"
                 )
         
@@ -2509,7 +2517,7 @@ def show_home_page():
     st.markdown("<h3 style='text-align: center;'>AI-Powered Education Platform</h3>", unsafe_allow_html=True)
     
     # Image
-    st.image("https://img.freepik.com/free-vector/online-learning-isometric-concept_1284-17947.jpg", use_container_width=True)
+    st.image("https://img.freepik.com/free-vector/online-learning-isometric-concept_1284-17947.jpg")
     
     # Features section
     st.markdown("---")
