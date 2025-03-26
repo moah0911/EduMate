@@ -945,37 +945,20 @@ def show_login_page():
 def show_register_page():
     st.title("Register for EduMate")
     
-    # More comprehensive CSS fixes for password fields
+    # Add CSS to fix password field visibility issues - simplified approach
     st.markdown("""
     <style>
-    /* Comprehensive fix for password fields */
-    input[type="password"],
-    div:has(> input[type="password"]) {
+    /* Base styles to ensure password fields are visible and interactive */
+    input[type="password"] {
         opacity: 1 !important;
-        height: auto !important;
-        min-height: unset !important;
-        visibility: visible !important;
-        display: block !important;
-        pointer-events: auto !important;
-    }
-    
-    /* Fix parent containers of password fields */
-    div:has(input[type="password"]) {
-        opacity: 1 !important;
-        height: auto !important;
-        min-height: unset !important;
-        visibility: visible !important;
-        display: block !important;
-        pointer-events: auto !important;
-    }
-    
-    /* Ensure proper styles for parent elements */
-    .stTextInput > div {
         position: relative !important;
-        flex: 1 1 0% !important;
-        width: 100% !important;
-        display: flex !important;
-        flex-direction: column !important;
+        z-index: 1 !important; 
+    }
+    
+    /* Target the specific password field container */
+    [data-testid="stTextInput"] {
+        visibility: visible !important;
+        height: auto !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -986,9 +969,21 @@ def show_register_page():
         username = st.text_input("Username (must be unique)")
         date_of_birth = st.date_input("Date of Birth")
         
-        # Use a more direct approach for the password field
-        password_container = st.empty()
-        password = password_container.text_input("Password", type="password", key="register_password")
+        # Alternative approach without container
+        password_col1, password_col2 = st.columns(2)
+        with password_col1:
+            # Use a simple text input with a unique key
+            password = st.text_input("Password", 
+                                    key="simple_password_field",
+                                    type="password" if st.session_state.get('hide_password', True) else "text")
+            
+        with password_col2:
+            # Add a show/hide password toggle
+            show_password = st.checkbox("Show password", key="show_password_toggle")
+            if show_password:
+                st.session_state.hide_password = False
+            else:
+                st.session_state.hide_password = True
         
         role = st.selectbox("Role", ["teacher", "student"])
         submit = st.form_submit_button("Register")
