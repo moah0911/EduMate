@@ -945,28 +945,59 @@ def show_login_page():
 def show_register_page():
     st.title("Register for EduMate")
     
-    # Create the form without nested columns for password field
-    with st.form("register_form"):
+    # Initialize password visibility state
+    if 'password_visible' not in st.session_state:
+        st.session_state.password_visible = False
+    
+    # Function to toggle password visibility
+    def toggle_password_visibility():
+        st.session_state.password_visible = not st.session_state.password_visible
+    
+    with st.form("register_form", clear_on_submit=False):
         name = st.text_input("Full Name")
         email = st.text_input("Email")
         username = st.text_input("Username (must be unique)")
         date_of_birth = st.date_input("Date of Birth")
         
-        # Simple password field without type="password"
-        password = st.text_input("Password", key="register_pwd")
+        # Create two columns - this is allowed in a form as long as inputs aren't nested incorrectly
+        col1, col2 = st.columns([3, 1])
         
-        # Add security note outside the nested structure
-        st.caption("For security, consider typing in a private location")
+        with col1:
+            # Conditionally use password or text type based on visibility state
+            if st.session_state.password_visible:
+                password = st.text_input("Password", key="visible_pwd")
+            else:
+                # For masked version, use a workaround
+                curr_password = st.session_state.get('curr_password', '')
+                password = st.text_input(
+                    "Password",
+                    value=curr_password,
+                    key="masked_pwd"
+                )
+                # If password changed, store it
+                if password != curr_password:
+                    st.session_state.curr_password = password
+        
+        # Checkbox outside columns to toggle visibility
+        show_password = st.checkbox("Show password", 
+                                  value=st.session_state.password_visible,
+                                  on_change=toggle_password_visibility)
+        
+        # Get the actual password value
+        if st.session_state.password_visible:
+            actual_password = password
+        else:
+            actual_password = st.session_state.get('curr_password', '')
         
         role = st.selectbox("Role", ["teacher", "student"])
-        # Make sure the submit button is directly within the form
         submit = st.form_submit_button("Register")
         
         if submit:
-            if not name or not email or not password or not username:
-                st.error("Please fill in all required fields")
+            if not name or not email or not username or not password:
+                st.error("Please fill in all required fields.")
             else:
-                success, message = register_user(email, password, name, role, username, date_of_birth.isoformat())
+                # Use the existing register_user function with the correct password
+                success, message = register_user(email, actual_password, name, role, username, date_of_birth.isoformat())
                 if success:
                     st.success(message)
                     st.session_state.current_page = 'login'
@@ -2222,7 +2253,7 @@ def show_course_assignments(course):
                 with col1:
                     due_date = st.date_input("Due Date")
                 with col2:
-                    points = st.number_input("Points", min_value=1, value=10)
+                    points = st.number_input("Points", min_value=1, max_value=100, value=10)
                 
                 submit = st.form_submit_button("Create Assignment")
                 
