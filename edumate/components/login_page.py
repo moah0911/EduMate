@@ -9,6 +9,12 @@ def show_enhanced_login_page():
     
     # Check if function exists in session state
     if 'login_function' not in st.session_state:
+        # Define a fallback login function
+        def fallback_login(login_id, password):
+            st.error("Login system not properly initialized. Please reload the application.")
+            return False, "Login function not available"
+            
+        st.session_state.login_function = fallback_login
         st.error("Login function not available. Please reload the application.")
         return
     

@@ -100,9 +100,6 @@ if 'current_page' not in st.session_state:
 if 'language' not in st.session_state:
     st.session_state.language = 'en'  # Default language is English
 
-# Always ensure the login function is available and up-to-date
-st.session_state.login_function = login_user
-
 # Create data directory if it doesn't exist
 if not os.path.exists('data'):
     os.makedirs('data')
@@ -231,6 +228,33 @@ def ensure_all_courses_have_codes():
         print("Updated courses with missing codes")
 
 # User authentication functions
+def login_user(login_id, password):
+    """Authenticate user with provided credentials"""
+    if not login_id or not password:
+        return False, "Please enter both username/email and password"
+        
+    try:
+        users = load_data('users')
+        
+        for user in users:
+            # Allow login with email or username (case insensitive comparison)
+            user_email = user.get('email', '').lower() if user.get('email') else ''
+            user_username = user.get('username', '').lower() if user.get('username') else ''
+            input_login = login_id.lower() if login_id else ''
+            
+            if (user_email == input_login or user_username == input_login) and user.get('password') == password:
+                # Log successful login
+                log_access(user['id'], "User logged in successfully")
+                return True, user
+        
+        # Log failed login attempt
+        log_error("Failed login attempt", {"login_id": login_id})
+        return False, "Invalid username/email or password"
+    except Exception as e:
+        # Handle any errors during login process
+        log_error("Login system error", {"error": str(e)})
+        return False, "An error occurred during login. Please try again."
+
 def register_user(email, password, name, role, username, date_of_birth):
     users = load_data('users')
     
@@ -257,26 +281,6 @@ def register_user(email, password, name, role, username, date_of_birth):
     users.append(new_user)
     save_data('users', users)
     return True, "Registration successful"
-
-def login_user(login_id, password):
-    """Authenticate user with provided credentials"""
-    if not login_id or not password:
-        return False, "Please enter both username/email and password"
-        
-    users = load_data('users')
-    
-    for user in users:
-        # Allow login with email or username (case insensitive)
-        if ((user.get('email', '').lower() == login_id.lower() or 
-             user.get('username', '').lower() == login_id.lower()) and 
-            user.get('password') == password):
-            # Log successful login
-            log_access(user['id'], "User logged in successfully")
-            return True, user
-    
-    # Log failed login attempt
-    log_error("Failed login attempt", {"login_id": login_id})
-    return False, "Invalid username/email or password"
 
 # Course management functions
 def create_course(name, description, teacher_id, start_date, end_date, code=None):
