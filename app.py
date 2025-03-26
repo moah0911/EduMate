@@ -945,73 +945,45 @@ def show_login_page():
 def show_register_page():
     st.title("Register for EduMate")
     
-    # Handle password visibility toggle OUTSIDE the form
-    if 'password_visible' not in st.session_state:
-        st.session_state.password_visible = False
+    # Simple form with a basic password field and checkbox
+    with st.form("register_form"):
+        name = st.text_input("Full Name")
+        email = st.text_input("Email")
+        username = st.text_input("Username (must be unique)")
+        date_of_birth = st.date_input("Date of Birth")
         
-    # Store password in session state to prevent losing it between rerenders
-    if 'password_value' not in st.session_state:
-        st.session_state.password_value = ""
-    
-    # Checkbox for password visibility - OUTSIDE the form
-    password_visible = st.checkbox("Password visibility toggle", 
-                                 value=st.session_state.password_visible)
-    st.session_state.password_visible = password_visible
-    
-    # Use two separate columns for the registration process
-    form_col1, form_col2 = st.columns([2, 1])
-    
-    with form_col1:
-        # The main registration form
-        with st.form("register_form"):
-            name = st.text_input("Full Name")
-            email = st.text_input("Email")
-            username = st.text_input("Username (must be unique)")
-            date_of_birth = st.date_input("Date of Birth")
+        # Store password value in session state
+        if 'password_value' not in st.session_state:
+            st.session_state.password_value = ""
             
-            # Password field that properly masks when visibility is off
-            if st.session_state.password_visible:
-                # When visible, show as regular text
-                password = st.text_input("Password", 
-                                       value=st.session_state.password_value,
-                                       key="pwd_visible_field")
-                st.session_state.password_value = password
+        # Simple show/hide password checkbox inside the form
+        show_password = st.checkbox("Show password")
+        
+        # Password field that changes type based on checkbox
+        if show_password:
+            password = st.text_input("Password", value=st.session_state.password_value, key="pwd_visible")
+        else:
+            password = st.text_input("Password", value=st.session_state.password_value, type="password", key="pwd_hidden")
+            
+        # Store password in session state
+        st.session_state.password_value = password
+        
+        role = st.selectbox("Role", ["teacher", "student"])
+        submit = st.form_submit_button("Register")
+        
+        if submit:
+            if not name or not email or not username or not password:
+                st.error("Please fill in all required fields.")
             else:
-                # When not visible, use password type for masking
-                password = st.text_input("Password", 
-                                       value=st.session_state.password_value,
-                                       key="pwd_masked_field",
-                                       type="password")
-                st.session_state.password_value = password
-            
-            role = st.selectbox("Role", ["teacher", "student"])
-            submit = st.form_submit_button("Register")
-            
-            if submit:
-                if not name or not email or not username or not st.session_state.password_value:
-                    st.error("Please fill in all required fields.")
+                success, message = register_user(email, password, name, role, username, date_of_birth.isoformat())
+                if success:
+                    st.success(message)
+                    st.session_state.current_page = 'login'
+                    st.rerun()
                 else:
-                    # Use the value from session state to ensure we get the correct password
-                    success, message = register_user(email, st.session_state.password_value, name, role, username, date_of_birth.isoformat())
-                    if success:
-                        st.success(message)
-                        st.session_state.current_page = 'login'
-                        st.rerun()
-                    else:
-                        st.error(message)
+                    st.error(message)
     
-    with form_col2:
-        # Add some helpful hints
-        st.markdown("""
-        ### Registration Help
-        
-        * All fields are required
-        * Choose a unique username
-        * Toggle password visibility as needed
-        * Select your role (student/teacher)
-        """)
-    
-    # Navigation back to login
+    # Navigation link back to login
     st.markdown("---")
     st.write("Already have an account?")
     if st.button("Login"):
