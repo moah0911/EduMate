@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "email": "teacher@edumate.com",
+        "password": "teacher123",
+        "name": "Demo Teacher",
+        "role": "teacher",
+        "created_at": "2025-03-09T21:33:02.820051"
+    },
+    {
+        "id": 2,
+        "email": "student@edumate.com",
+        "password": "student123",
+        "name": "Demo Student",
+        "role": "student",
+        "created_at": "2025-03-09T21:33:02.823166"
+    },
+    {
+        "id": 3,
+        "email": "teacher@tch.com",
+        "password": "Gowtham",
+        "name": "Gowtham Boyina",
+        "role": "teacher",
+        "created_at": "2025-03-09T21:33:52.558838"
+    },
+    {
+        "id": 4,
+        "email": "student@stu.com",
+        "password": "D3xRxMjB7ymT7Uu",
+        "name": "elonmusk",
+        "role": "student",
+        "created_at": "2025-03-09T21:36:41.767872"
+    },
+    {
+        "id": 5,
+        "email": "avinash@edumate.com",
+        "username": "avinash",
+        "password": "Gowtham911",
+        "name": "Avinash",
+        "role": "teacher",
+        "created_at": "2025-03-25T20:12:59.411352"
+    },
+    {
+        "id": 6,
+        "email": "vp@edumate.com",
+        "username": "vp",
+        "password": "Varun911",
+        "name": "Varun Preetham",
+        "role": "student",
+        "created_at": "2025-03-25T20:14:18.741660"
+    },
+    {
+        "id": 7,
+        "email": "shinchan@edumate.com",
+        "username": "Shinchan_911",
+        "password": "Shinchan911",
+        "name": "Shinchan",
+        "role": "student",
+        "date_of_birth": "2025-03-25",
+        "created_at": "2025-03-25T21:40:10.786328"
+    }
+]

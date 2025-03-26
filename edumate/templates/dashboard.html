@@ -1,0 +1,316 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - EduMate{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/dashboard">
+                            <i class="bi bi-house-door me-2"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/classes">
+                            <i class="bi bi-mortarboard me-2"></i>
+                            Classes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/assignments">
+                            <i class="bi bi-journal-text me-2"></i>
+                            Assignments
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/calendar">
+                            <i class="bi bi-calendar3 me-2"></i>
+                            Calendar
+                        </a>
+                    </li>
+                    {% if session.role == 'teacher' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/analytics">
+                            <i class="bi bi-graph-up me-2"></i>
+                            Analytics
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/settings">
+                            <i class="bi bi-gear me-2"></i>
+                            Settings
+                        </a>
+                    </li>
+                </ul>
+                
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>Your Classes</span>
+                    <a class="link-secondary" href="/classes" aria-label="Add a new class">
+                        <i class="bi bi-plus-circle"></i>
+                    </a>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                    {% for class in classes %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/classes/{{ class.id }}">
+                            <i class="bi bi-circle me-2" style="color: {{ class.color }}"></i>
+                            {{ class.name }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Dashboard</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group me-2">
+                        {% if session.role == 'teacher' %}
+                        <a href="/assignments/create" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-plus-lg"></i> New Assignment
+                        </a>
+                        <a href="/classes/create" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-plus-lg"></i> New Class
+                        </a>
+                        {% else %}
+                        <a href="/classes/join" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-plus-lg"></i> Join Class
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats cards -->
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <h6 class="card-title mb-0">Classes</h6>
+                                <div class="icon-shape bg-light text-primary rounded-circle">
+                                    <i class="bi bi-mortarboard"></i>
+                                </div>
+                            </div>
+                            <h2 class="fw-bold mb-0">{{ stats.classes }}</h2>
+                            <p class="text-muted small mb-0">
+                                {% if session.role == 'teacher' %}
+                                Classes you teach
+                                {% else %}
+                                Classes you're enrolled in
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 mb-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <h6 class="card-title mb-0">Assignments</h6>
+                                <div class="icon-shape bg-light text-success rounded-circle">
+                                    <i class="bi bi-journal-text"></i>
+                                </div>
+                            </div>
+                            <h2 class="fw-bold mb-0">{{ stats.total_assignments }}</h2>
+                            <p class="text-muted small mb-0">
+                                {% if session.role == 'teacher' %}
+                                Total assignments created
+                                {% else %}
+                                Total assignments assigned
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 mb-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <h6 class="card-title mb-0">
+                                    {% if session.role == 'teacher' %}
+                                    Pending Grading
+                                    {% else %}
+                                    Pending Submission
+                                    {% endif %}
+                                </h6>
+                                <div class="icon-shape bg-light text-warning rounded-circle">
+                                    <i class="bi bi-hourglass-split"></i>
+                                </div>
+                            </div>
+                            <h2 class="fw-bold mb-0">{{ stats.pending_grading }}</h2>
+                            <p class="text-muted small mb-0">
+                                {% if session.role == 'teacher' %}
+                                Submissions to grade
+                                {% else %}
+                                Assignments due soon
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 mb-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <h6 class="card-title mb-0">
+                                    {% if session.role == 'teacher' %}
+                                    Students
+                                    {% else %}
+                                    Average Grade
+                                    {% endif %}
+                                </h6>
+                                <div class="icon-shape bg-light text-info rounded-circle">
+                                    {% if session.role == 'teacher' %}
+                                    <i class="bi bi-people"></i>
+                                    {% else %}
+                                    <i class="bi bi-graph-up"></i>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <h2 class="fw-bold mb-0">
+                                {% if session.role == 'teacher' %}
+                                {{ stats.students }}
+                                {% else %}
+                                {{ stats.average_grade|default('N/A') }}
+                                {% endif %}
+                            </h2>
+                            <p class="text-muted small mb-0">
+                                {% if session.role == 'teacher' %}
+                                Total students
+                                {% else %}
+                                Across all assignments
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent activity and upcoming deadlines -->
+            <div class="row">
+                <!-- Recent activity -->
+                <div class="col-md-8 mb-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="card-title mb-0">Recent Activity</h5>
+                        </div>
+                        <div class="list-group list-group-flush">
+                            {% for activity in recent_activities %}
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">{{ activity.description }}</p>
+                                    <small class="text-muted">{{ activity.activity_time|time_ago }}</small>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="list-group-item text-center py-4">
+                                <p class="text-muted mb-0">No recent activity</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Upcoming deadlines -->
+                <div class="col-md-4 mb-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="card-title mb-0">Upcoming Deadlines</h5>
+                        </div>
+                        <div class="list-group list-group-flush">
+                            {% for deadline in upcoming_deadlines %}
+                            <div class="list-group-item">
+                                <h6 class="mb-1">{{ deadline.title }}</h6>
+                                <p class="mb-1 small">{{ deadline.class }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-{{ deadline.days_left < 2 ? 'danger' : (deadline.days_left < 5 ? 'warning' : 'info') }}">
+                                        {{ deadline.days_left }} day{{ deadline.days_left != 1 ? 's' : '' }} left
+                                    </span>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="list-group-item text-center py-4">
+                                <p class="text-muted mb-0">No upcoming deadlines</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent assignments -->
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Recent Assignments</h5>
+                            <a href="/assignments" class="btn btn-sm btn-link">View all</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Class</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for assignment in recent_assignments %}
+                                    <tr>
+                                        <td>{{ assignment.title }}</td>
+                                        <td>{{ assignment.class }}</td>
+                                        <td>{{ assignment.due_date|format_date }}</td>
+                                        <td>
+                                            <span class="badge bg-{{ assignment.status == 'active' ? 'success' : (assignment.status == 'draft' ? 'secondary' : 'info') }}">
+                                                {{ assignment.status|capitalize }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="/assignments/{{ assignment.id }}" class="btn btn-outline-primary">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                {% if session.role == 'teacher' %}
+                                                <a href="/assignments/{{ assignment.id }}/edit" class="btn btn-outline-secondary">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <a href="/assignments/{{ assignment.id }}/grade" class="btn btn-outline-success">
+                                                    <i class="bi bi-check2-all"></i>
+                                                </a>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="5" class="text-center py-4">
+                                            <p class="text-muted mb-0">No assignments found</p>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

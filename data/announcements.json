@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "course_id": 1,
+    "user_id": 1,
+    "title": "Welcome to the Course!",
+    "content": "Welcome to our course! I'm excited to have you all join me on this learning journey. Please take some time to review the syllabus and course materials. If you have any questions, feel free to ask in the comments below or send me a message directly.\n\nLet's make this a great semester!",
+    "important": true,
+    "created_at": "2023-09-01T09:00:00",
+    "comments": [
+      {
+        "id": 1,
+        "user_id": 2,
+        "content": "Looking forward to the course! Will the lecture slides be available before class?",
+        "created_at": "2023-09-01T10:15:00"
+      },
+      {
+        "id": 2,
+        "user_id": 1,
+        "content": "Yes, I'll post all lecture slides at least 24 hours before each class.",
+        "created_at": "2023-09-01T11:30:00"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "course_id": 1,
+    "user_id": 1,
+    "title": "First Assignment Posted",
+    "content": "I've just posted the first assignment. Please review it carefully and start working on it early. The deadline is September 15th at 11:59 PM.\n\nRemember to follow the submission guidelines and format your work according to the instructions.",
+    "important": false,
+    "created_at": "2023-09-05T14:30:00",
+    "comments": []
+  },
+  {
+    "id": 3,
+    "course_id": 2,
+    "user_id": 1,
+    "title": "Class Canceled Tomorrow",
+    "content": "Due to unforeseen circumstances, tomorrow's class (September 10th) is canceled. We will make up for this session next week with an extended class.\n\nPlease use this time to work on your assignments and review the reading materials.",
+    "important": true,
+    "created_at": "2023-09-09T16:45:00",
+    "comments": [
+      {
+        "id": 1,
+        "user_id": 3,
+        "content": "Will this affect the due date for our current assignment?",
+        "created_at": "2023-09-09T17:10:00"
+      },
+      {
+        "id": 2,
+        "user_id": 1,
+        "content": "No, all assignment deadlines remain the same. However, I'll be available for extended office hours on Friday to answer any questions.",
+        "created_at": "2023-09-09T17:25:00"
+      }
+    ]
+  }
+] 

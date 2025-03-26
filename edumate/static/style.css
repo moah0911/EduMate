@@ -1,0 +1,277 @@
+/* EduMate Global Styles */
+
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary: #06b6d4;
+    --dark: #111827;
+    --light: #f9fafb;
+    --primary-bg: #4169E1;
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    --card-border: 1px solid rgba(255, 255, 255, 0.3);
+    --card-radius: 12px;
+    --btn-radius: 8px;
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --accent-light: rgba(99, 102, 241, 0.1);
+}
+
+/* Global Resets */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Streamlit Overrides */
+.stApp {
+    background-color: var(--primary-bg);
+}
+
+.main .block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    max-width: 1200px;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Logo Styling */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    width: 70px;
+    background-color: white;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Styles */
+.card {
+    background-color: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.98);
+}
+
+/* Text colors for better visibility */
+.card h2, .card h3, .card p {
+    color: var(--text-primary);
+}
+
+/* Button Styles */
+.btn-primary {
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--btn-radius);
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+    transform: translateY(-2px);
+    background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+}
+
+/* Form Controls */
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: var(--btn-radius);
+    border: 1px solid #e5e7eb;
+    background-color: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* Header Section */
+.header-section {
+    text-align: center;
+    padding: 20px 0;
+    margin-bottom: 2rem;
+}
+
+.app-title {
+    margin: 0;
+    color: white;
+    font-weight: 800;
+    font-size: 3rem;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.app-subtitle {
+    color: white;
+    font-weight: 500;
+    font-size: 1.2rem;
+    background-color: rgba(0,0,0,0.2);
+    padding: 5px 15px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+/* Fix for empty containers */
+.language-select:empty,
+.stColumn:empty, 
+.stVerticalBlock:empty,
+.element-container:empty,
+div[data-testid="stVerticalBlock"]:empty,
+div[data-testid="stHorizontalBlock"]:empty,
+.element-container:has(> div:empty) {
+    display: none !important;
+}
+
+/* Hide empty password fields and login page spacers */
+input[type="password"]:empty,
+.stTextInput:has(input:empty) ~ div:empty {
+    opacity: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.login-form-container div:empty {
+    display: none !important;
+}
+
+/* RTL Support */
+.rtl {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+    background-color: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.dashboard-card__icon {
+    background-color: var(--accent-light);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.dashboard-card__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.dashboard-card__description {
+    color: var(--text-secondary);
+    flex-grow: 1;
+}
+
+/* Tables */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--card-bg);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+}
+
+.styled-table thead tr {
+    background-color: var(--primary);
+    color: white;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.styled-table tbody tr:hover {
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
+/* Badges */
+.badge {
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 50rem;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: var(--primary);
+}
+
+.badge-success {
+    color: #fff;
+    background-color: #10b981;
+}
+
+.badge-warning {
+    color: #111827;
+    background-color: #f59e0b;
+}
+
+.badge-danger {
+    color: #fff;
+    background-color: #ef4444;
+}
+
+/* Responsive Utilities */
+@media (max-width: 768px) {
+    .main .block-container {
+        padding: 1rem;
+    }
+    
+    .app-title {
+        font-size: 2.5rem;
+    }
+}

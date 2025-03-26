@@ -1,0 +1,38 @@
+{
+    "programming": [
+        {
+            "title": "Python for Everybody",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/specializations/python"
+        },
+        {
+            "title": "The Complete Web Developer Course",
+            "platform": "Udemy",
+            "url": "https://www.udemy.com/course/the-complete-web-developer-course-2"
+        }
+    ],
+    "data_analysis": [
+        {
+            "title": "Data Science Specialization",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/specializations/jhu-data-science"
+        },
+        {
+            "title": "Data Analyst Nanodegree",
+            "platform": "Udacity",
+            "url": "https://www.udacity.com/course/data-analyst-nanodegree--nd002"
+        }
+    ],
+    "communication": [
+        {
+            "title": "Effective Communication",
+            "platform": "LinkedIn Learning",
+            "url": "https://www.linkedin.com/learning/topics/communication"
+        },
+        {
+            "title": "Public Speaking",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/learn/public-speaking"
+        }
+    ]
+}

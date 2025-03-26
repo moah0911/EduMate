@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduMate - AI-Powered Education Platform</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #4a6baf;
+            --secondary-color: #2a3f6a;
+            --accent-color: #5cb85c;
+            --light-bg: #f8f9fa;
+            --dark-bg: #212529;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #4a6baf, #2a3f6a);
+            color: white;
+            padding: 100px 0;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .feature-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 4rem;
+            height: 4rem;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            color: #fff;
+            border-radius: 0.75rem;
+            background-color: var(--primary-color);
+        }
+        
+        .feature-card {
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            height: 100%;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .testimonial-card {
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .testimonial-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1.5rem;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #4a6baf, #2a3f6a);
+            color: white;
+            padding: 80px 0;
+            margin-top: 5rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .btn-outline-light {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+        }
+        
+        .section-title {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-mortarboard-fill me-2"></i>
+                EduMate
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faq">FAQ</a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary" href="/register">Sign Up Free</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <h1 class="hero-title">AI-Powered Education Platform</h1>
+                    <p class="hero-subtitle">EduMate helps teachers save time with automated grading and personalized feedback, while providing students with a better learning experience.</p>
+                    <div class="d-flex gap-3">
+                        <a href="/register" class="btn btn-light btn-lg">Get Started</a>
+                        <a href="#features" class="btn btn-outline-light btn-lg">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <img src="https://source.unsplash.com/random/600x400/?education,technology" alt="EduMate Platform" class="img-fluid rounded-3 shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5 my-5" id="features">
+        <div class="container">
+            <h2 class="text-center section-title" data-aos="fade-up">Key Features</h2>
+            
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card bg-white">
+                        <div class="feature-icon">
+                            <i class="bi bi-robot"></i>
+                        </div>
+                        <h3>AI-Powered Grading</h3>
+                        <p>Save hours of time with automated grading for essays, code assignments, and quizzes. Our AI provides consistent and objective evaluation.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card bg-white">
+                        <div class="feature-icon">
+                            <i class="bi bi-chat-square-text"></i>
+                        </div>
+                        <h3>Personalized Feedback</h3>
+                        <p>Students receive detailed, personalized feedback that helps them understand their strengths and areas for improvement.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card bg-white">
+                        <div class="feature-icon">
+                            <i class="bi bi-graph-up"></i>
+                        </div>
+                        <h3>Insightful Analytics</h3>
+                        <p>Track student progress and identify learning gaps with comprehensive analytics and visualizations.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-card bg-white">
+                        <div class="feature-icon">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <h3>Class Management</h3>
+                        <p>Create and manage classes, assignments, and announcements with an intuitive interface inspired by Google Classroom.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-card bg-white">
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h3>Plagiarism Detection</h3>
+                        <p>Automatically check student submissions for plagiarism to ensure academic integrity.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="feature-card bg-white">
+                        <div class="feature-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h3>Collaborative Learning</h3>
+                        <p>Foster collaboration with discussion boards, peer reviews, and group assignments.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-5 bg-light" id="how-it-works">
+        <div class="container">
+            <h2 class="text-center section-title" data-aos="fade-up">How It Works</h2>
+            
+            <div class="row align-items-center my-5">
+                <div class="col-md-6" data-aos="fade-right">
+                    <h3>1. Create Classes and Assignments</h3>
+                    <p>Teachers can easily create classes, invite students with join codes, and create various types of assignments including essays, code challenges, and quizzes.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Intuitive class management</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Multiple assignment types</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Customizable rubrics</li>
+                    </ul>
+                </div>
+                <div class="col-md-6" data-aos="fade-left">
+                    <img src="https://source.unsplash.com/random/600x400/?classroom,teacher" alt="Create Classes" class="img-fluid rounded-3 shadow">
+                </div>
+            </div>
+            
+            <div class="row align-items-center my-5 flex-md-row-reverse">
+                <div class="col-md-6" data-aos="fade-left">
+                    <h3>2. Students Submit Work</h3>
+                    <p>Students can view assignments, submit their work, and track their progress all in one place. The platform supports text submissions, file uploads, and interactive quizzes.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Easy submission process</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Multiple file formats supported</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Deadline reminders</li>
+                    </ul>
+                </div>
+                <div class="col-md-6" data-aos="fade-right">
+                    <img src="https://source.unsplash.com/random/600x400/?student,studying" alt="Student Submissions" class="img-fluid rounded-3 shadow">
+                </div>
+            </div>
+            
+            <div class="row align-items-center my-5">
+                <div class="col-md-6" data-aos="fade-right">
+                    <h3>3. AI Grades and Provides Feedback</h3>
+                    <p>Our AI technology automatically grades submissions based on customized rubrics and provides detailed, personalized feedback to help students improve.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Consistent grading criteria</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Detailed feedback comments</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Plagiarism detection</li>
+                    </ul>
+                </div>
+                <div class="col-md-6" data-aos="fade-left">
+                    <img src="https://source.unsplash.com/random/600x400/?artificial,intelligence" alt="AI Grading" class="img-fluid rounded-3 shadow">
+                </div>
+            </div>
+            
+            <div class="row align-items-center my-5 flex-md-row-reverse">
+                <div class="col-md-6" data-aos="fade-left">
+                    <h3>4. Teachers Review and Analyze</h3>
+                    <p>Teachers can review AI-generated grades, make adjustments if needed, and gain insights into student performance through comprehensive analytics.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Grade distribution analysis</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Student progress tracking</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Identify learning gaps</li>
+                    </ul>
+                </div>
+                <div class="col-md-6" data-aos="fade-right">
+                    <img src="https://source.unsplash.com/random/600x400/?analytics,dashboard" alt="Teacher Analytics" class="img-fluid rounded-3 shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-5 my-5" id="testimonials">
+        <div class="container">
+            <h2 class="text-center section-title" data-aos="fade-up">What Educators Say</h2>
+            
+            <div class="row">
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-card">
+                        <div class="d-flex mb-4">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah Johnson" class="testimonial-img">
+                            <div>
+                                <h5 class="mb-1">Sarah Johnson</h5>
+                                <p class="text-muted mb-0">High School English Teacher</p>
+                            </div>
+                        </div>
+                        <p class="mb-0">"EduMate has revolutionized how I grade essays. What used to take me hours now takes minutes, and the feedback is incredibly detailed. My students are getting more personalized guidance than ever before."</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-card">
+                        <div class="d-flex mb-4">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael Chen" class="testimonial-img">
+                            <div>
+                                <h5 class="mb-1">Michael Chen</h5>
+                                <p class="text-muted mb-0">Computer Science Professor</p>
+                            </div>
+                        </div>
+                        <p class="mb-0">"The code grading feature is a game-changer for my programming classes. It not only checks for correctness but also provides feedback on code quality and efficiency. My students are learning better coding practices as a result."</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-card">
+                        <div class="d-flex mb-4">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Lisa Rodriguez" class="testimonial-img">
+                            <div>
+                                <h5 class="mb-1">Lisa Rodriguez</h5>
+                                <p class="text-muted mb-0">Middle School Science Teacher</p>
+                            </div>
+                        </div>
+                        <p class="mb-0">"The analytics have helped me identify which concepts my students are struggling with, allowing me to adjust my teaching accordingly. The time I save on grading is now spent on improving my lessons."</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="testimonial-card">
+                        <div class="d-flex mb-4">
+                            <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="James Wilson" class="testimonial-img">
+                            <div>
+                                <h5 class="mb-1">James Wilson</h5>
+                                <p class="text-muted mb-0">School Principal</p>
+                            </div>
+                        </div>
+                        <p class="mb-0">"Implementing EduMate across our school has significantly reduced teacher burnout while improving student outcomes. The consistent grading and detailed feedback have led to more engaged students and happier teachers."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-5 bg-light" id="faq">
+        <div class="container">
+            <h2 class="text-center section-title" data-aos="fade-up">Frequently Asked Questions</h2>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="100">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    How accurate is the AI grading?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Our AI grading system has been trained on thousands of teacher-graded assignments and achieves over 90% accuracy compared to human graders. Teachers always have the final say and can adjust grades if needed.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="200">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    What types of assignments can be graded?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    EduMate can grade essays, short answers, code assignments in multiple programming languages, and multiple-choice quizzes. We're constantly expanding our capabilities to support more assignment types.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="300">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Is student data secure?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, we take data security very seriously. All data is encrypted both in transit and at rest. We comply with FERPA and other educational privacy regulations, and we never use student data for purposes other than providing our service.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="400">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    Can EduMate integrate with other LMS platforms?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, EduMate can integrate with popular Learning Management Systems like Canvas, Blackboard, and Moodle. We also offer an API for custom integrations with your school's existing systems.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="500">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                    Is there a free version available?
+                                </button>
+                            </h2>
+                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, we offer a free tier for individual teachers with limited features. For schools and districts, we offer premium plans with additional features, analytics, and support. Contact us for educational discounts.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container text-center">
+            <h2 class="mb-4" data-aos="fade-up">Ready to Transform Your Teaching Experience?</h2>
+            <p class="lead mb-5" data-aos="fade-up" data-aos-delay="100">Join thousands of educators who are saving time and improving student outcomes with EduMate.</p>
+            <div data-aos="fade-up" data-aos-delay="200">
+                <a href="/register" class="btn btn-light btn-lg me-3">Sign Up Free</a>
+                <a href="/demo" class="btn btn-outline-light btn-lg">Request Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">EduMate</h5>
+                    <p class="mb-3">AI-powered education platform that helps teachers save time and provide better feedback to students.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-white"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5 class="mb-3">Product</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#features" class="text-white text-decoration-none">Features</a></li>
+                        <li class="mb-2"><a href="#how-it-works" class="text-white text-decoration-none">How It Works</a></li>
+                        <li class="mb-2"><a href="/pricing" class="text-white text-decoration-none">Pricing</a></li>
+                        <li class="mb-2"><a href="/demo" class="text-white text-decoration-none">Request Demo</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5 class="mb-3">Company</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/about" class="text-white text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="/blog" class="text-white text-decoration-none">Blog</a></li>
+                        <li class="mb-2"><a href="/careers" class="text-white text-decoration-none">Careers</a></li>
+                        <li class="mb-2"><a href="/contact" class="text-white text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-4">
+                    <h5 class="mb-3">Stay Updated</h5>
+                    <p class="mb-3">Subscribe to our newsletter for the latest updates and educational resources.</p>
+                    <form class="d-flex">
+                        <input type="email" class="form-control me-2" placeholder="Your email">
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+    </div>
+
+            <hr class="my-4">
+            
+            <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <p class="mb-0">&copy; 2023 EduMate. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="/privacy" class="text-white text-decoration-none me-3">Privacy Policy</a>
+                    <a href="/terms" class="text-white text-decoration-none me-3">Terms of Service</a>
+                    <a href="/cookies" class="text-white text-decoration-none">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
+</body>
+</html> 

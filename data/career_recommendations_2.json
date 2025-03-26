@@ -1,0 +1,29 @@
+{
+    "recommended_careers": [
+        {
+            "title": "Data Analyst",
+            "match": 80,
+            "description": "Analyze data to help organizations make better decisions.",
+            "outlook": "Strong growth as companies increasingly rely on data.",
+            "salary_range": "$60,000 - $110,000",
+            "education": "Bachelor's degree in Statistics, Mathematics, or related field",
+            "skills_needed": [
+                "Statistical Analysis",
+                "Data Visualization",
+                "SQL",
+                "Problem Solving"
+            ]
+        }
+    ],
+    "skill_gaps": [
+        "Advanced Programming",
+        "Machine Learning",
+        "Public Speaking"
+    ],
+    "required_qualifications": [
+        "Bachelor's Degree",
+        "Internship Experience"
+    ],
+    "industry_insights": "Technology and data-driven fields are showing the strongest growth.",
+    "generated_at": "2025-03-25T20:11:50.652602"
+}

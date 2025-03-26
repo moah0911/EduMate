@@ -1,0 +1,35 @@
+{
+    "entrance_exams": [
+        {
+            "name": "JEE Main",
+            "dates": [
+                "January",
+                "April"
+            ],
+            "description": "Joint Entrance Examination for Engineering"
+        },
+        {
+            "name": "NEET",
+            "dates": [
+                "May"
+            ],
+            "description": "National Eligibility cum Entrance Test for Medical"
+        }
+    ],
+    "board_exams": [
+        {
+            "name": "CBSE 10th",
+            "dates": [
+                "February-March"
+            ],
+            "description": "Central Board Secondary Education Class 10"
+        },
+        {
+            "name": "CBSE 12th",
+            "dates": [
+                "February-March"
+            ],
+            "description": "Central Board Secondary Education Class 12"
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+{
+    "software_engineering": {
+        "programming": 9,
+        "problem_solving": 8,
+        "system_design": 7,
+        "teamwork": 6,
+        "communication": 6
+    },
+    "data_science": {
+        "statistics": 9,
+        "programming": 7,
+        "data_visualization": 8,
+        "machine_learning": 8,
+        "communication": 7
+    },
+    "product_management": {
+        "business_acumen": 8,
+        "communication": 9,
+        "leadership": 8,
+        "technical_understanding": 7,
+        "problem_solving": 8
+    }
+}

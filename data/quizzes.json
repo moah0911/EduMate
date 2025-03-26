@@ -1,0 +1,382 @@
+[
+    {
+        "id": 1,
+        "title": "Fundamentals of Programming",
+        "description": "Test your knowledge of programming basics",
+        "subject": "Computer Science",
+        "time_limit_minutes": 20,
+        "passing_score": 70,
+        "difficulty": "Beginner",
+        "questions": [
+            {
+                "id": 1,
+                "text": "Which of the following is NOT a programming paradigm?",
+                "type": "multiple_choice",
+                "options": [
+                    "Procedural Programming",
+                    "Object-Oriented Programming",
+                    "Functional Programming",
+                    "Descriptive Programming"
+                ],
+                "correct_answer": "Descriptive Programming",
+                "explanation": "Descriptive Programming is not a standard programming paradigm. The main paradigms include Procedural, Object-Oriented, Functional, and Logic Programming."
+            },
+            {
+                "id": 2,
+                "text": "What does the acronym 'API' stand for?",
+                "type": "multiple_choice",
+                "options": [
+                    "Application Programming Interface",
+                    "Application Process Integration",
+                    "Automated Programming Interface",
+                    "Application Protocol Interface"
+                ],
+                "correct_answer": "Application Programming Interface",
+                "explanation": "API stands for Application Programming Interface. It defines the ways different software components should interact."
+            },
+            {
+                "id": 3,
+                "text": "Which data structure operates on a Last-In-First-Out (LIFO) principle?",
+                "type": "multiple_choice",
+                "options": [
+                    "Queue",
+                    "Stack",
+                    "Linked List",
+                    "Tree"
+                ],
+                "correct_answer": "Stack",
+                "explanation": "A Stack follows the Last-In-First-Out (LIFO) principle, where the last element added is the first one to be removed."
+            },
+            {
+                "id": 4,
+                "text": "What is the time complexity of binary search on a sorted array?",
+                "type": "multiple_choice",
+                "options": [
+                    "O(1)",
+                    "O(n)",
+                    "O(log n)",
+                    "O(n\u00b2)"
+                ],
+                "correct_answer": "O(log n)",
+                "explanation": "Binary search has a time complexity of O(log n) because it divides the search interval in half with each step."
+            },
+            {
+                "id": 5,
+                "text": "Which of the following is an example of a high-level programming language?",
+                "type": "multiple_choice",
+                "options": [
+                    "Assembly",
+                    "Machine Code",
+                    "Python",
+                    "Microcode"
+                ],
+                "correct_answer": "Python",
+                "explanation": "Python is a high-level programming language. Assembly and Machine Code are low-level languages, and Microcode is even lower level, directly controlling processor operations."
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "Calculus Concepts",
+        "description": "Test your understanding of basic calculus principles",
+        "subject": "Mathematics",
+        "time_limit_minutes": 30,
+        "passing_score": 75,
+        "difficulty": "Intermediate",
+        "questions": [
+            {
+                "id": 1,
+                "text": "What is the derivative of e^x?",
+                "type": "multiple_choice",
+                "options": [
+                    "e^x",
+                    "x\u00b7e^x",
+                    "e^(x-1)",
+                    "ln(x)"
+                ],
+                "correct_answer": "e^x",
+                "explanation": "The function e^x is its own derivative, making it a unique and important function in calculus."
+            },
+            {
+                "id": 2,
+                "text": "What is the integral of 1/x?",
+                "type": "multiple_choice",
+                "options": [
+                    "x",
+                    "ln|x| + C",
+                    "1/(x+1) + C",
+                    "e^x + C"
+                ],
+                "correct_answer": "ln|x| + C",
+                "explanation": "The integral of 1/x is ln|x| + C, where C is the constant of integration."
+            },
+            {
+                "id": 3,
+                "text": "Which of the following represents the chain rule for differentiation?",
+                "type": "multiple_choice",
+                "options": [
+                    "d/dx[f(g(x))] = f'(g(x)) \u00d7 g'(x)",
+                    "d/dx[f(g(x))] = f'(x) \u00d7 g'(x)",
+                    "d/dx[f(g(x))] = f(x) \u00d7 g(x)",
+                    "d/dx[f(g(x))] = f'(x)/g'(x)"
+                ],
+                "correct_answer": "d/dx[f(g(x))] = f'(g(x)) \u00d7 g'(x)",
+                "explanation": "The chain rule states that the derivative of a composite function is the derivative of the outer function evaluated at the inner function, multiplied by the derivative of the inner function."
+            },
+            {
+                "id": 4,
+                "text": "What is the limit of sin(x)/x as x approaches 0?",
+                "type": "multiple_choice",
+                "options": [
+                    "0",
+                    "1",
+                    "\u221e",
+                    "Does not exist"
+                ],
+                "correct_answer": "1",
+                "explanation": "The limit of sin(x)/x as x approaches 0 is 1. This is a fundamental limit in calculus and can be proven using the squeeze theorem."
+            },
+            {
+                "id": 5,
+                "text": "What is the second derivative of position with respect to time?",
+                "type": "multiple_choice",
+                "options": [
+                    "Velocity",
+                    "Acceleration",
+                    "Jerk",
+                    "Momentum"
+                ],
+                "correct_answer": "Acceleration",
+                "explanation": "The second derivative of position with respect to time is acceleration. The first derivative gives velocity."
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "title": "Classical Mechanics",
+        "description": "Test your knowledge of Newton's laws and applications",
+        "subject": "Physics",
+        "time_limit_minutes": 25,
+        "passing_score": 70,
+        "difficulty": "Intermediate",
+        "questions": [
+            {
+                "id": 1,
+                "text": "What is Newton's First Law of Motion?",
+                "type": "multiple_choice",
+                "options": [
+                    "F = ma",
+                    "For every action, there is an equal and opposite reaction",
+                    "An object at rest stays at rest, and an object in motion stays in motion unless acted upon by a net force",
+                    "Energy cannot be created or destroyed, only transformed"
+                ],
+                "correct_answer": "An object at rest stays at rest, and an object in motion stays in motion unless acted upon by a net force",
+                "explanation": "Newton's First Law, also known as the Law of Inertia, states that an object will maintain its state of rest or uniform motion in a straight line unless acted upon by an external force."
+            },
+            {
+                "id": 2,
+                "text": "What is the SI unit of force?",
+                "type": "multiple_choice",
+                "options": [
+                    "Watt",
+                    "Joule",
+                    "Newton",
+                    "Pascal"
+                ],
+                "correct_answer": "Newton",
+                "explanation": "The SI unit of force is the Newton (N), which is defined as the force needed to accelerate a 1kg mass at 1 m/s\u00b2."
+            },
+            {
+                "id": 3,
+                "text": "Which of the following is a vector quantity?",
+                "type": "multiple_choice",
+                "options": [
+                    "Time",
+                    "Mass",
+                    "Energy",
+                    "Velocity"
+                ],
+                "correct_answer": "Velocity",
+                "explanation": "Velocity is a vector quantity because it has both magnitude (speed) and direction. Time, mass, and energy are scalar quantities."
+            },
+            {
+                "id": 4,
+                "text": "What is the law of conservation of momentum?",
+                "type": "multiple_choice",
+                "options": [
+                    "The total momentum of an isolated system remains constant",
+                    "The total energy of an isolated system remains constant",
+                    "The total force in an isolated system remains constant",
+                    "The total mass in an isolated system remains constant"
+                ],
+                "correct_answer": "The total momentum of an isolated system remains constant",
+                "explanation": "The law of conservation of momentum states that the total momentum of an isolated system (where no external forces act) remains constant over time."
+            },
+            {
+                "id": 5,
+                "text": "What happens to the gravitational force between two objects when the distance between them is doubled?",
+                "type": "multiple_choice",
+                "options": [
+                    "It doubles",
+                    "It halves",
+                    "It becomes one-fourth",
+                    "It remains the same"
+                ],
+                "correct_answer": "It becomes one-fourth",
+                "explanation": "According to Newton's Law of Universal Gravitation, the gravitational force is inversely proportional to the square of the distance. So if the distance doubles, the force becomes (1/2)\u00b2 = 1/4 of its original value."
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "title": "Cell Biology Essentials",
+        "description": "Test your knowledge of cellular structures and functions",
+        "subject": "Biology",
+        "time_limit_minutes": 20,
+        "passing_score": 70,
+        "difficulty": "Beginner",
+        "questions": [
+            {
+                "id": 1,
+                "text": "Which organelle is known as the 'powerhouse of the cell'?",
+                "type": "multiple_choice",
+                "options": [
+                    "Nucleus",
+                    "Mitochondria",
+                    "Endoplasmic Reticulum",
+                    "Golgi Apparatus"
+                ],
+                "correct_answer": "Mitochondria",
+                "explanation": "Mitochondria are known as the 'powerhouse of the cell' because they generate most of the cell's supply of adenosine triphosphate (ATP), the energy currency of the cell."
+            },
+            {
+                "id": 2,
+                "text": "What is the primary function of chloroplasts in plant cells?",
+                "type": "multiple_choice",
+                "options": [
+                    "Cellular respiration",
+                    "Protein synthesis",
+                    "Photosynthesis",
+                    "Waste removal"
+                ],
+                "correct_answer": "Photosynthesis",
+                "explanation": "Chloroplasts contain chlorophyll and are responsible for photosynthesis, the process by which plants convert light energy into chemical energy."
+            },
+            {
+                "id": 3,
+                "text": "Which of the following is NOT a component of the cell membrane?",
+                "type": "multiple_choice",
+                "options": [
+                    "Phospholipids",
+                    "Cholesterol",
+                    "Proteins",
+                    "DNA"
+                ],
+                "correct_answer": "DNA",
+                "explanation": "The cell membrane is composed mainly of a phospholipid bilayer with embedded proteins and cholesterol. DNA is primarily found in the nucleus and mitochondria."
+            },
+            {
+                "id": 4,
+                "text": "What is the process by which cells engulf particles or fluids?",
+                "type": "multiple_choice",
+                "options": [
+                    "Exocytosis",
+                    "Osmosis",
+                    "Diffusion",
+                    "Endocytosis"
+                ],
+                "correct_answer": "Endocytosis",
+                "explanation": "Endocytosis is the process by which cells engulf external particles or fluids by forming vesicles from the cell membrane. Exocytosis is the opposite process."
+            },
+            {
+                "id": 5,
+                "text": "Which cell organelle is responsible for protein synthesis?",
+                "type": "multiple_choice",
+                "options": [
+                    "Ribosome",
+                    "Lysosome",
+                    "Vacuole",
+                    "Peroxisome"
+                ],
+                "correct_answer": "Ribosome",
+                "explanation": "Ribosomes are responsible for protein synthesis. They can be found free in the cytoplasm or attached to the endoplasmic reticulum."
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "title": "Chemical Reactions and Equations",
+        "description": "Test your understanding of chemical reaction types and balancing equations",
+        "subject": "Chemistry",
+        "time_limit_minutes": 25,
+        "passing_score": 75,
+        "difficulty": "Intermediate",
+        "questions": [
+            {
+                "id": 1,
+                "text": "What type of reaction is: 2H\u2082 + O\u2082 \u2192 2H\u2082O?",
+                "type": "multiple_choice",
+                "options": [
+                    "Decomposition",
+                    "Single displacement",
+                    "Double displacement",
+                    "Synthesis (Combination)"
+                ],
+                "correct_answer": "Synthesis (Combination)",
+                "explanation": "This is a synthesis or combination reaction where two or more substances combine to form a single product."
+            },
+            {
+                "id": 2,
+                "text": "In the reaction: C\u2083H\u2088 + 5O\u2082 \u2192 3CO\u2082 + 4H\u2082O, what is being oxidized?",
+                "type": "multiple_choice",
+                "options": [
+                    "Oxygen",
+                    "Carbon",
+                    "Hydrogen",
+                    "Both Carbon and Hydrogen"
+                ],
+                "correct_answer": "Both Carbon and Hydrogen",
+                "explanation": "In this combustion reaction, the carbon in C\u2083H\u2088 is oxidized from -8/3 to +4, and hydrogen is oxidized from +1 to +1 (in H\u2082O). Both elements in propane are being oxidized."
+            },
+            {
+                "id": 3,
+                "text": "What is the balanced equation for the reaction between aluminum and copper(II) sulfate?",
+                "type": "multiple_choice",
+                "options": [
+                    "Al + CuSO\u2084 \u2192 AlSO\u2084 + Cu",
+                    "2Al + 3CuSO\u2084 \u2192 Al\u2082(SO\u2084)\u2083 + 3Cu",
+                    "Al + Cu\u2082SO\u2084 \u2192 Al\u2082SO\u2084 + Cu",
+                    "2Al + Cu\u2082SO\u2084 \u2192 2AlSO\u2084 + Cu"
+                ],
+                "correct_answer": "2Al + 3CuSO\u2084 \u2192 Al\u2082(SO\u2084)\u2083 + 3Cu",
+                "explanation": "This is a single displacement reaction where aluminum replaces copper in copper(II) sulfate. The balanced equation accounts for the charges of Al\u00b3\u207a and Cu\u00b2\u207a."
+            },
+            {
+                "id": 4,
+                "text": "Which of the following is an endothermic reaction?",
+                "type": "multiple_choice",
+                "options": [
+                    "Combustion of methane",
+                    "Rusting of iron",
+                    "Photosynthesis",
+                    "Neutralization of an acid with a base"
+                ],
+                "correct_answer": "Photosynthesis",
+                "explanation": "Photosynthesis is an endothermic reaction because it absorbs energy from sunlight. The other reactions listed are exothermic, releasing energy."
+            },
+            {
+                "id": 5,
+                "text": "What is the pH of a 0.01 M HCl solution?",
+                "type": "multiple_choice",
+                "options": [
+                    "1",
+                    "2",
+                    "12",
+                    "14"
+                ],
+                "correct_answer": "2",
+                "explanation": "The pH of an acidic solution is calculated as -log[H\u207a]. For a 0.01 M HCl solution, pH = -log(0.01) = -log(10\u207b\u00b2) = 2."
+            }
+        ]
+    }
+]

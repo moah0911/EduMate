@@ -1,0 +1,25 @@
+{
+    "student_id": 2,
+    "interests": [
+        "Computer Science",
+        "Mathematics"
+    ],
+    "skills": {
+        "technical": 5,
+        "creative": 5,
+        "communication": 5,
+        "leadership": 5
+    },
+    "preferences": {
+        "work_environment": "Academic/Research",
+        "work_values": [
+            "Independence"
+        ]
+    },
+    "education": {
+        "level": "High School"
+    },
+    "goals": "Want to be on top",
+    "created_at": "2025-03-14T11:03:34.406052",
+    "updated_at": "2025-03-14T11:03:34.406063"
+}

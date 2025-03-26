@@ -1,0 +1,48 @@
+﻿def show_course_students(course):
+    """Display students enrolled in the course with options to manage enrollment"""
+    import streamlit as st
+    
+    # Get all users
+    from app import load_data, enroll_student
+    
+    st.subheader("Enrolled Students")
+    
+    # Get all users
+    users = load_data('users')
+    
+    # Get students enrolled in the course
+    enrolled_students = [user for user in users if user['role'] == 'student' and user['id'] in course.get('students', [])]
+    
+    # Display enrolled students
+    if not enrolled_students:
+        st.info("No students enrolled in this course yet.")
+    else:
+        # Display student count
+        st.write(f"**Total students:** {len(enrolled_students)}")
+        
+        # Create a simple list of students
+        for i, student in enumerate(enrolled_students, 1):
+            st.write(f"{i}. **{student['name']}** - {student.get('username', 'No username')} ({student['email']})")
+    
+    # Teacher options to add students
+    if st.session_state.current_user['role'] == 'teacher' and st.session_state.current_user['id'] == course['teacher_id']:
+        with st.expander("Add New Students"):
+            # Get all students not enrolled in the course
+            available_students = [user for user in users if user['role'] == 'student' and user['id'] not in course.get('students', [])]
+            
+            if available_students:
+                # Create a selectbox with student names and IDs
+                student_options = {f"{user['name']} ({user.get('username', user['email'])})": user['id'] for user in available_students}
+                selected_student = st.selectbox("Select a student", list(student_options.keys()))
+                
+                if st.button("Add Student"):
+                    student_id = student_options[selected_student]
+                    success, message = enroll_student(course['id'], student_id)
+                    if success:
+                        st.success(message)
+                        st.rerun()
+                    else:
+                        st.error(message)
+            else:
+                st.info("All students are already enrolled in this course.")
+

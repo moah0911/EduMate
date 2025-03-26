@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+
+{% block title %}Assignments - EduMate{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Assignments</h1>
+        {% if current_user.is_teacher %}
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAssignmentModal">
+            <i class="bi bi-plus-lg"></i> Create Assignment
+        </button>
+        {% endif %}
+    </div>
+
+    <!-- Filters Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="statusFilter">
+                        <option value="all">All</option>
+                        <option value="active">Active</option>
+                        <option value="draft">Draft</option>
+                        <option value="archived">Archived</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Type</label>
+                    <select class="form-select" id="typeFilter">
+                        <option value="all">All Types</option>
+                        <option value="essay">Essay</option>
+                        <option value="code">Code</option>
+                        <option value="quiz">Quiz</option>
+                        <option value="file">File Upload</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Sort By</label>
+                    <select class="form-select" id="sortBy">
+                        <option value="due_date">Due Date</option>
+                        <option value="created_at">Created Date</option>
+                        <option value="title">Title</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assignments List -->
+    <div class="row g-4" id="assignmentsList">
+        {% for assignment in assignments %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title mb-0">{{ assignment.title }}</h5>
+                        <span class="badge bg-{{ assignment.status_color }}">{{ assignment.status }}</span>
+                    </div>
+                    <p class="card-text text-muted small mb-2">
+                        <i class="bi bi-calendar-event"></i> Due: {{ assignment.due_date|format_date }}
+                    </p>
+                    <p class="card-text">{{ assignment.description|truncate(100) }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-light text-dark">
+                            <i class="bi bi-trophy"></i> {{ assignment.points }} points
+                        </span>
+                        <span class="badge bg-light text-dark">
+                            <i class="bi bi-file-earmark-text"></i> {{ assignment.assignment_type }}
+                        </span>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="d-flex justify-content-between align-items-center">
+                        {% if current_user.is_teacher %}
+                        <div class="btn-group" role="group">
+                            <a href="{{ url_for('assignments.view_submissions', assignment_id=assignment.id) }}" 
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i> View Submissions
+                            </a>
+                            <button class="btn btn-sm btn-outline-secondary" 
+                                    onclick="editAssignment({{ assignment.id }})">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </div>
+                        {% else %}
+                        <a href="{{ url_for('assignments.submit_assignment', assignment_id=assignment.id) }}" 
+                           class="btn btn-sm btn-primary">
+                            {% if assignment.submitted %}
+                            <i class="bi bi-check-circle"></i> Submitted
+                            {% else %}
+                            <i class="bi bi-upload"></i> Submit
+                            {% endif %}
+                        </a>
+                        {% endif %}
+                        <small class="text-muted">
+                            {% if current_user.is_teacher %}
+                            {{ assignment.submission_count }} submissions
+                            {% else %}
+                            Grade: {{ assignment.user_grade|default('Not graded', true) }}
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Create Assignment Modal -->
+    {% if current_user.is_teacher %}
+    <div class="modal fade" id="createAssignmentModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Assignment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createAssignmentForm">
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" name="description" rows="4" required></textarea>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Type</label>
+                                <select class="form-select" name="assignment_type" required>
+                                    <option value="essay">Essay</option>
+                                    <option value="code">Code</option>
+                                    <option value="quiz">Quiz</option>
+                                    <option value="file">File Upload</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Points</label>
+                                <input type="number" class="form-control" name="points" value="100" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Due Date</label>
+                                <input type="datetime-local" class="form-control" name="due_date" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" name="status">
+                                    <option value="draft">Draft</option>
+                                    <option value="active">Active</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Rubric</label>
+                            <div id="rubricBuilder">
+                                <!-- Rubric criteria will be added here dynamically -->
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-secondary mt-2" 
+                                    onclick="addRubricCriterion()">
+                                <i class="bi bi-plus"></i> Add Criterion
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="submitAssignment()">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% block scripts %}
+<script>
+// Filter assignments
+function filterAssignments() {
+    const status = document.getElementById('statusFilter').value;
+    const type = document.getElementById('typeFilter').value;
+    const sort = document.getElementById('sortBy').value;
+    
+    fetch(`/api/assignments/filter?status=${status}&type=${type}&sort=${sort}`)
+        .then(response => response.json())
+        .then(data => {
+            // Update assignments list
+            const list = document.getElementById('assignmentsList');
+            list.innerHTML = ''; // Clear current list
+            data.assignments.forEach(assignment => {
+                list.appendChild(createAssignmentCard(assignment));
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// Create assignment card
+function createAssignmentCard(assignment) {
+    // Implementation of dynamic card creation
+    // This will mirror the template structure above
+}
+
+// Add rubric criterion
+function addRubricCriterion() {
+    const rubricBuilder = document.getElementById('rubricBuilder');
+    const criterionDiv = document.createElement('div');
+    criterionDiv.className = 'card mb-2';
+    criterionDiv.innerHTML = `
+        <div class="card-body">
+            <div class="row g-2">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Criterion name"
+                           name="rubric_criteria[]" required>
+                </div>
+                <div class="col-md-4">
+                    <input type="number" class="form-control" placeholder="Points"
+                           name="rubric_points[]" required>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-outline-danger btn-sm w-100"
+                            onclick="this.closest('.card').remove()">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    rubricBuilder.appendChild(criterionDiv);
+}
+
+// Submit assignment
+function submitAssignment() {
+    const form = document.getElementById('createAssignmentForm');
+    const formData = new FormData(form);
+    
+    // Build rubric object
+    const rubric = {};
+    const criteria = formData.getAll('rubric_criteria[]');
+    const points = formData.getAll('rubric_points[]');
+    criteria.forEach((criterion, index) => {
+        rubric[criterion] = parseInt(points[index]);
+    });
+    
+    // Build request data
+    const data = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        assignment_type: formData.get('assignment_type'),
+        points: parseInt(formData.get('points')),
+        due_date: formData.get('due_date'),
+        status: formData.get('status'),
+        rubric: rubric
+    };
+    
+    // Send request
+    fetch('/api/assignments', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            location.reload();
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Edit assignment
+function editAssignment(assignmentId) {
+    // Implementation of edit functionality
+    // This will be similar to create but will pre-fill the form
+}
+
+// Initialize event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('statusFilter').addEventListener('change', filterAssignments);
+    document.getElementById('typeFilter').addEventListener('change', filterAssignments);
+    document.getElementById('sortBy').addEventListener('change', filterAssignments);
+});
+</script>
+{% endblock %}
+{% endblock %} 

@@ -1,0 +1,43 @@
+[
+    {
+        "id": 1,
+        "name": "Introduction to Computer Science",
+        "code": "CS101",
+        "description": "An introductory course covering the basics of computer science and programming.",
+        "teacher_id": 1,
+        "start_date": "2025-02-07T21:33:02.825128",
+        "end_date": "2025-05-08T21:33:02.825128",
+        "created_at": "2025-03-09T21:33:02.825128",
+        "students": [
+            2
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Python",
+        "code": "23331A0524",
+        "description": "",
+        "teacher_id": 3,
+        "start_date": "2025-03-09",
+        "end_date": "2025-03-09",
+        "created_at": "2025-03-09T21:35:26.787106",
+        "students": [
+            4,
+            2,
+            7
+        ]
+    },
+    {
+        "id": 3,
+        "name": "PPL",
+        "code": "cse123",
+        "description": "",
+        "teacher_id": 1,
+        "start_date": "2025-03-10",
+        "end_date": "2025-09-24",
+        "created_at": "2025-03-10T21:05:33.173184",
+        "students": [
+            2
+        ]
+    }
+]

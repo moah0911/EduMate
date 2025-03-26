@@ -1,0 +1,85 @@
+[
+    {
+        "id": 1,
+        "assignment_id": 2,
+        "student_id": 4,
+        "content": "print(\"Hello Gowtham\")",
+        "submitted_at": "2025-03-09T21:38:18.647114",
+        "status": "graded",
+        "score": 53,
+        "feedback": null,
+        "graded_at": "2025-03-09T21:38:46.890473"
+    },
+    {
+        "id": 2,
+        "assignment_id": 3,
+        "student_id": 4,
+        "content": "Here is My assignment submitted",
+        "file_info": {
+            "filename": "DAA Assignment-1.pdf",
+            "file_path": "uploads/assignment_3/4_DAA Assignment-1.pdf",
+            "file_type": "application/pdf",
+            "file_size": 1846111
+        },
+        "submitted_at": "2025-03-09T21:49:39.321929",
+        "status": "graded",
+        "score": 85,
+        "feedback": null,
+        "ai_feedback": "# AI-Generated Feedback for elonmusk\n\n## Assignment: DAA\n\n### Strengths:\n- You submitted a file (DAA Assignment-1.pdf) which demonstrates thoroughness.\n- Your PDF submission is in a professional format suitable for academic work.\n\n### Areas for Improvement:\n- Your text submission is quite brief. Consider expanding your answer with more details.\n- Try to include more reasoning and logical connections in your answer.\n- Consider structuring your text answer with more complete sentences.\n\n### Summary:\nThis automated feedback is based on an analysis of your submission. Both your text response and uploaded file were evaluated. It's designed to help you improve your work. Please review the teacher's manual feedback as well for more personalized guidance.",
+        "graded_at": "2025-03-09T22:17:16.028840"
+    },
+    {
+        "id": 3,
+        "assignment_id": 4,
+        "student_id": 4,
+        "content": "The below attached file has the answer",
+        "file_info": {
+            "filename": "DAA Assignment-1.pdf",
+            "file_path": "uploads/assignment_4/4_DAA Assignment-1.pdf",
+            "file_type": "application/pdf",
+            "file_size": 1846111
+        },
+        "submitted_at": "2025-03-09T21:55:49.452166",
+        "status": "auto-graded",
+        "score": 85,
+        "feedback": null,
+        "ai_feedback": "# AI-Generated Feedback for elonmusk\n\n## Assignment: DAA\n\n### Strengths:\n- You submitted a file (DAA Assignment-1.pdf) which demonstrates thoroughness.\n- Your PDF submission is in a professional format suitable for academic work.\n- Your handwritten work was processed and analyzed successfully.\n\n### Areas for Improvement:\n- Your text submission is quite brief. Consider expanding your answer with more details.\n- Try to include more reasoning and logical connections in your answer.\n- Consider structuring your text answer with more complete sentences.\n\n## File Analysis: DAA Assignment-1.pdf\n\n- Word count: 6\n- Sentence count: 2\n- Average sentence length: 3.0 words\n- Document appears to be a PDF, which typically indicates a formal submission.\n\n\n## Handwritten Content Analysis\n\n### Image 1 Analysis\nError: Valid Gemini API key not configured. Please set the GEMINI_API_KEY environment variable.\n\n### Image 2 Analysis\nError: Valid Gemini API key not configured. Please set the GEMINI_API_KEY environment variable.\n\n### Image 3 Analysis\nError: Valid Gemini API key not configured. Please set the GEMINI_API_KEY environment variable.\n\n### Image 4 Analysis\nError: Valid Gemini API key not configured. Please set the GEMINI_API_KEY environment variable.\n\n### Image 5 Analysis\nError: Valid Gemini API key not configured. Please set the GEMINI_API_KEY environment variable.\n\n### Image 6 Analysis\nError: Valid Gemini API key not configured. Please set the GEMINI_API_KEY environment variable.\n\n### Image 7 Analysis\nError: Valid Gemini API key not configured. Please set the GEMINI_API_KEY environment variable.\n\n### Image 8 Analysis\nError: Valid Gemini API key not configured. Please set the GEMINI_API_KEY environment variable.\n\n### Image 9 Analysis\nError: Valid Gemini API key not configured. Please set the GEMINI_API_KEY environment variable.\n\n### Image 10 Analysis\nError: Valid Gemini API key not configured. Please set the GEMINI_API_KEY environment variable.\n\n### Image 11 Analysis\nError: Valid Gemini API key not configured. Please set the GEMINI_API_KEY environment variable.\n\n### Image 12 Analysis\nError: Valid Gemini API key not configured. Please set the GEMINI_API_KEY environment variable.\n\n\n\n### Summary:\nThis automated feedback is based on an analysis of your submission. Your handwritten PDF was analyzed using AI image recognition. It's designed to help you improve your work. Please review the teacher's manual feedback as well for more personalized guidance.",
+        "graded_at": "2025-03-09T22:01:00.384825"
+    },
+    {
+        "id": 4,
+        "assignment_id": 5,
+        "student_id": 2,
+        "content": "Below is the attached",
+        "file_info": {
+            "filename": "DAA Assignment-1.pdf",
+            "file_path": "uploads/assignment_5/2_DAA Assignment-1.pdf",
+            "file_type": "application/pdf",
+            "file_size": 1846111
+        },
+        "submitted_at": "2025-03-10T21:07:46.027332",
+        "status": "auto-graded",
+        "score": 85,
+        "feedback": null,
+        "ai_feedback": "# AI-Generated Feedback for Demo Student\n\n## Assignment: First assigment\n\n### Strengths:\n- You submitted a file (DAA Assignment-1.pdf) which demonstrates thoroughness.\n- Your PDF submission is in a professional format suitable for academic work.\n- Your PDF was analyzed directly by our AI system, including any handwritten content.\n- Your handwritten work shows dedication and personal effort in your submission.\n\n### Areas for Improvement:\n- Your text submission is quite brief. Consider expanding your answer with more details.\n- Try to include more reasoning and logical connections in your answer.\n- Consider structuring your text answer with more complete sentences.\n\n## File Analysis: DAA Assignment-1.pdf\n\n- Word count: 6\n- Sentence count: 2\n- Average sentence length: 3.0 words\n- Document appears to be a PDF, which typically indicates a formal submission.\n\n\n## PDF Content Analysis\n\nOkay, let's analyze the assignment submission.\n\n**Overall Structure and Content:**\n\nThe submission appears to be a solution to an assignment on algorithms and data structures.  It covers topics like time complexity analysis, amortized analysis, and the Union-Find data structure. There are four questions attempted. The presentation is handwritten.\n\n**Detailed Analysis and Transcription (with Corrections):**\n\n**Page 1:**\n\n*   **Heading:** \"Assignment - 1\"\n*   **Question 1:** \"What is the time complexity of the following code?\"\n*   **Code:**\n\n```c++\nint a = 0;\nfor (i = 0; i < N; i++) {\n    for (j = N; j > i; j--) {\n        a = a + i + j;\n    }\n}\n```\n*   **Solution:**\n    *   \"Sol: int a = 0; -> 1\"\n    *   \"for (i = 0; i < N; i++) -> n\"\n    *   \"for (j = N; j > i; j--) -> n(n-i)\"\n    *   \"{ a = a + i + j; } -> n(n-i)\"\n    *   \"Tn = 1 + n + n^2 - nk1 + n^2 - nk1\"   (This looks like an intermediate step)\n    *   \"Tn = 2n^2 + (1 - 2k1)n + 1\" (This looks like an intermediate step)\n    *   \"Drop the non-dominant terms.\"\n    *   \"Tn = 2n^2\"\n    *   \"Drop the coefficent constant coefficients.\"\n    *   \"Tn = n^2 = O(n^2)\"\n\n*   **Evaluation of Question 1:**\n    *   The approach is generally correct. The student identifies the nested loops and attempts to calculate the number of operations.\n    *   The notation and variable names (e.g., \"k1\") are a bit unclear.  It would be better to directly calculate the sum of the inner loop.\n    *   The final answer of O(n^2) is correct.\n    *   Clarity could be improved with better explanations.\n    *  The calculation of number of times the inner loop runs is correct: N + (N-1) + (N-2) + ... + 1 = N(N+1)/2 which is O(N^2)\n**Page 2:**\n\n*   **Question 2:** \"Let us say you need to double an array size whenever the array is full. What is the amortized cost of operation involved?\"\n*   **Solution:**\n    *   \"Sol: When array is not full, adding an element takes O(1)\"\n    *   \"When array is full, doubling its size involves:\"\n    *   \"i) Allocating a new array of double the size.\"\n    *   \"ii) Copying all existing elements from the old array to the new array. This copying operation takes O(n), where n is the size of the array at the time of resizing.\"\n    *   \"Amortized Cost:\"\n    *   \"Cost of each resizing operation is proportional to the size of the array being copied.\"\n    *   \"Consider n operations in the array.\"\n    *   \"Resizing occurs at array sizes 1, 2, 4, 8, ..., 2^k where 2^k <= n\"\n    *   \"Total cost (T) = 1 + 2 + 4 + 8 + ... + n = 2n - 1\"\n    *   \"T \u2248 2n\"\n    *   \"Amortized cost = T/n = 2n/n = 2\"\n    *   \":. Amortized cost of appending an element to an array that\" (sentence cut off)\n\n*   **Evaluation of Question 2:**\n    *   The explanation of why resizing takes O(n) is correct.\n    *   The calculation of the total cost is correct. The sum of a geometric series 1 + 2 + 4 + ... + 2^(k-1) = 2^k - 1. Where 2^k is the size of the array after resizing\n    *   The final amortized cost is also correct.  O(2) is equivalent to O(1).\n    *   The solution is well-structured and fairly clear.\n\n**Page 3:**\n\n*   **Question 3:** \"Show that if fewer than \\[n/2] unions are performed, then at least one set with a single element in it remains.\"\n\n*   **Solution:**\n    *   \"Sol: Consider n sets with each containing a distinct element.\"\n    *   \"Each union operation reduces the total number of sets by 1.\"\n    *   \"After k union operations, the no. of sets remaining will be n-k.\"\n    *   \"If fewer than \\[n/2] union operations are performed, then k < \\[n/2].\"\n    *   \":. no. of sets remaining: n - k > n - \\[n/2]\"\n    *   \"n - \\[n/2]\"\n    *   \"If n is even, \\[n/2] = n/2 so n - n/2 = n/2\"\n    *   \"If n is odd, \\[n/2] = (n+1)/2\"\n    *   \"n - \\[n/2] = n - (n+1)/2 = (n-1)/2\"\n    *   \"In either case, n - k > n - \\[n/2] means more than one set remains. Since there are still multiple sets, at least one of these sets must still contain a single element.\"\n    *   \":. If fewer than \\[n/2] union operations were performed, at least one set with a single element remains.\"\n\n*   **Evaluation of Question 3:**\n    * The approach is valid, and the proof is correct. It considers both even and odd cases of N\n    * The explanation is clear and logical.\n\n**Page 4 - 6:**\n\n*   **Question 4:** \"Show the resulting sequence of operations using Union by Rank... \" (followed by a list of union operations: Union(1,3), Union(2,4), Union(3,5), Union(4,6), Union(7,8), Union(9,10), Union(5,7), Union(6,9), Union(8,10) with link and rank arrays.\"\n*   **Solution:** The student provides a step-by-step execution of the Union-Find algorithm with Union by Rank.\n    *   They define `link[]` (parent pointers) and `rank[]`.\n    *   They initialize `link` so that each element is its own parent (representing individual sets).\n    *   They initialize `rank` to 0 for all elements.\n    *   For each Union operation, they correctly find the roots of the two elements, compare their ranks, and attach the tree with the smaller rank to the tree with the larger rank (or increment the rank of one of the trees arbitrarily, if both have the same rank). The link and rank arrays are updated accordingly.\n\n*   **Evaluation of Question 4:**\n    *   The solution demonstrates a correct understanding of the Union-Find algorithm with Union by Rank.\n    *   The step-by-step execution is accurate.\n    *   The `link` and `rank` arrays are updated correctly after each Union operation.\n    *   The presentation is clear and easy to follow.\n\n**Overall Assessment:**\n\n*   **Correctness:** The student demonstrates a good understanding of the concepts.  All solutions are generally correct.\n*   **Completeness:** The student attempts all four questions, providing reasonable solutions.\n*   **Clarity:** The handwritten format can make the solution less clear in some places. Also, the solutions would benefit from more explicit explanations of each step.\n\n**Recommendations:**\n\n*   **Improve Clarity:**  Provide more detailed explanations for each step in the solutions.  Define any variables or notation used.\n*   **Notation:** Standardize the notation used (e.g., use consistent variable names).\n*   **Presentation:** If possible, consider typing the solution for better readability.\n*   **Verification:** Double-check all calculations to avoid minor errors.\n\nI hope this detailed analysis is helpful!\n\n\n### Summary:\nThis automated feedback is based on an analysis of your submission. Your PDF was analyzed directly using Google Gemini AI, which can process both text and handwritten content. It's designed to help you improve your work. Please review the teacher's manual feedback as well for more personalized guidance.",
+        "graded_at": "2025-03-13T20:13:48.971301"
+    },
+    {
+        "id": 5,
+        "assignment_id": 6,
+        "student_id": 2,
+        "content": "Find the attached document",
+        "file_info": {
+            "filename": "dld assignment 3.pdf.pdf",
+            "file_path": "uploads/assignment_6/2_dld assignment 3.pdf.pdf",
+            "file_type": "application/pdf",
+            "file_size": 333007
+        },
+        "submitted_at": "2025-03-13T20:25:20.355304",
+        "status": "auto-graded",
+        "score": 85,
+        "feedback": null,
+        "ai_feedback": "# AI-Generated Feedback for Demo Student\n\n## Assignment: FA\n\n### Strengths:\n- You submitted a file (dld assignment 3.pdf.pdf) which demonstrates thoroughness.\n- Your PDF submission is in a professional format suitable for academic work.\n- Your PDF was analyzed directly by our AI system, including any handwritten content.\n\n### Areas for Improvement:\n- Your text submission is quite brief. Consider expanding your answer with more details.\n- Try to include more reasoning and logical connections in your answer.\n- Consider structuring your text answer with more complete sentences.\n\n## File Analysis: dld assignment 3.pdf.pdf\n\n- Word count: 7\n- Sentence count: 3\n- Average sentence length: 2.3 words\n- Document appears to be a PDF, which typically indicates a formal submission.\n\n\n## PDF Content Analysis\n\nModel gemini-2.0-pro failed: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"models/gemini-2.0-pro is not found for API version v1, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.\",\n    \"status\": \"NOT_FOUND\"\n  }\n}\n\n\n### Summary:\nThis automated feedback is based on an analysis of your submission. Your PDF was analyzed directly using Google Gemini AI, which can process both text and handwritten content. It's designed to help you improve your work. Please review the teacher's manual feedback as well for more personalized guidance.",
+        "graded_at": "2025-03-26T19:11:23.558779"
+    }
+]

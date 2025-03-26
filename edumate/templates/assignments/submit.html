@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Assignment - EduMate{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Assignment Details -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title h4">{{ assignment.title }}</h2>
+            <p class="text-muted mb-3">
+                <i class="bi bi-calendar-event"></i> Due: {{ assignment.due_date|format_date }}
+                <span class="mx-2">|</span>
+                <i class="bi bi-trophy"></i> {{ assignment.points }} points
+                <span class="mx-2">|</span>
+                <i class="bi bi-file-earmark-text"></i> {{ assignment.assignment_type }}
+            </p>
+            <div class="mb-4">
+                {{ assignment.description|safe }}
+            </div>
+            
+            {% if assignment.rubric %}
+            <div class="mb-3">
+                <h5>Grading Rubric</h5>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Criterion</th>
+                                <th class="text-end">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for criterion, points in assignment.rubric.items() %}
+                            <tr>
+                                <td>{{ criterion }}</td>
+                                <td class="text-end">{{ points }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Submission Form -->
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title h5 mb-4">Your Submission</h3>
+            <form id="submissionForm" enctype="multipart/form-data">
+                {% if assignment.assignment_type == 'essay' %}
+                <div class="mb-3">
+                    <label class="form-label">Essay Content</label>
+                    <textarea class="form-control" name="content" rows="10" required></textarea>
+                    <div class="form-text">
+                        Your essay will be graded using AI based on the rubric above.
+                    </div>
+                </div>
+                {% elif assignment.assignment_type == 'code' %}
+                <div class="mb-3">
+                    <label class="form-label">Code Submission</label>
+                    <div class="code-editor" id="codeEditor"></div>
+                    <input type="hidden" name="content" id="codeContent">
+                    <div class="form-text">
+                        Your code will be automatically tested and graded using AI.
+                    </div>
+                </div>
+                {% elif assignment.assignment_type == 'quiz' %}
+                <div id="quizContent">
+                    {% for question in assignment.questions %}
+                    <div class="mb-4">
+                        <label class="form-label">{{ question.text }}</label>
+                        {% if question.type == 'multiple_choice' %}
+                        <div class="list-group">
+                            {% for option in question.options %}
+                            <label class="list-group-item">
+                                <input class="form-check-input me-1" type="radio" 
+                                       name="question_{{ question.id }}" value="{{ option }}">
+                                {{ option }}
+                            </label>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <textarea class="form-control" name="question_{{ question.id }}" 
+                                  rows="3" required></textarea>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="mb-3">
+                    <label class="form-label">File Upload</label>
+                    <input type="file" class="form-control" name="files" multiple>
+                    <div class="form-text">
+                        You can upload multiple files if needed.
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label class="form-label">Additional Comments (Optional)</label>
+                    <textarea class="form-control" name="comments" rows="3"></textarea>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="autoGrade" name="auto_grade" checked>
+                        <label class="form-check-label" for="autoGrade">
+                            Enable AI grading
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-upload"></i> Submit Assignment
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+// Initialize code editor if needed
+if (document.getElementById('codeEditor')) {
+    const editor = ace.edit('codeEditor');
+    editor.setTheme('ace/theme/monokai');
+    editor.session.setMode('ace/mode/python');  // Default to Python
+    editor.setOptions({
+        fontSize: '14px',
+        showPrintMargin: false,
+        showGutter: true,
+        highlightActiveLine: true,
+        enableBasicAutocompletion: true,
+        enableLiveAutocompletion: true,
+        enableSnippets: true
+    });
+}
+
+// Handle form submission
+document.getElementById('submissionForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form data
+    const formData = new FormData(this);
+    
+    // If code submission, get content from editor
+    if (document.getElementById('codeEditor')) {
+        const editor = ace.edit('codeEditor');
+        formData.set('content', editor.getValue());
+    }
+    
+    // Send submission
+    fetch('/api/assignments/{{ assignment.id }}/submit', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            // Show success message
+            const toast = new bootstrap.Toast(document.getElementById('submissionToast'));
+            document.getElementById('submissionToastBody').textContent = data.message;
+            toast.show();
+            
+            // Redirect after delay
+            setTimeout(() => {
+                window.location.href = '/assignments';
+            }, 2000);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+</script>
+
+<!-- Success Toast -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="submissionToast" class="toast" role="alert">
+        <div class="toast-header">
+            <i class="bi bi-check-circle-fill text-success me-2"></i>
+            <strong class="me-auto">Success</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body" id="submissionToastBody"></div>
+    </div>
+</div>
+{% endblock %}
+{% endblock %} 

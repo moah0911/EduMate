@@ -1,0 +1,347 @@
+{% extends "base.html" %}
+
+{% block title %}Grade Submissions - EduMate{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <!-- Submissions List -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title h5 mb-0">Submissions</h3>
+                </div>
+                <div class="list-group list-group-flush" id="submissionsList">
+                    {% for submission in submissions %}
+                    <a href="#" 
+                       class="list-group-item list-group-item-action submission-item {% if submission.is_graded %}bg-light{% endif %}"
+                       data-submission-id="{{ submission.id }}">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">{{ submission.student.full_name }}</h6>
+                                <small class="text-muted">
+                                    Submitted: {{ submission.submitted_at|format_date }}
+                                </small>
+                            </div>
+                            {% if submission.is_graded %}
+                            <span class="badge bg-success">{{ submission.grade }}/{{ assignment.points }}</span>
+                            {% else %}
+                            <span class="badge bg-secondary">Ungraded</span>
+                            {% endif %}
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Submission Details -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="card-title h5 mb-0">Submission Details</h3>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-primary" onclick="autoGrade()">
+                                <i class="bi bi-robot"></i> Auto Grade
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="downloadSubmission()">
+                                <i class="bi bi-download"></i> Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="submissionContent">
+                        <!-- Content will be loaded dynamically -->
+                        <div class="text-center text-muted py-5">
+                            Select a submission to view details
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grading Panel -->
+            <div class="card mt-4" id="gradingPanel" style="display: none;">
+                <div class="card-header">
+                    <h3 class="card-title h5 mb-0">Grading</h3>
+                </div>
+                <div class="card-body">
+                    <form id="gradingForm">
+                        <div class="mb-3">
+                            <label class="form-label">Grade</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="grade" required>
+                                <span class="input-group-text">/ {{ assignment.points }}</span>
+                            </div>
+                        </div>
+
+                        {% if assignment.rubric %}
+                        <div class="mb-3">
+                            <label class="form-label">Rubric Scoring</label>
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Criterion</th>
+                                            <th style="width: 120px;">Score</th>
+                                            <th style="width: 100px;">Max</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for criterion, points in assignment.rubric.items() %}
+                                        <tr>
+                                            <td>{{ criterion }}</td>
+                                            <td>
+                                                <input type="number" class="form-control form-control-sm"
+                                                       name="criterion_{{ loop.index }}" max="{{ points }}">
+                                            </td>
+                                            <td class="text-center">{{ points }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label class="form-label">Feedback</label>
+                            <textarea class="form-control" name="feedback" rows="4" required></textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="useAI" name="use_ai">
+                                <label class="form-check-label" for="useAI">
+                                    Use AI for feedback generation
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                Submit Grade
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- AI Analysis Panel -->
+            <div class="card mt-4" id="aiAnalysisPanel" style="display: none;">
+                <div class="card-header">
+                    <h3 class="card-title h5 mb-0">AI Analysis</h3>
+                </div>
+                <div class="card-body">
+                    <div id="aiAnalysisContent">
+                        <!-- AI analysis will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+let currentSubmissionId = null;
+
+// Add event listeners for submission items
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.submission-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const submissionId = this.dataset.submissionId;
+            loadSubmission(submissionId);
+        });
+    });
+});
+
+// Load submission details
+function loadSubmission(submissionId) {
+    currentSubmissionId = submissionId;
+    
+    fetch(`/api/assignments/{{ assignment.id }}/submissions/${submissionId}`)
+        .then(response => response.json())
+        .then(data => {
+            // Update submission content
+            const content = document.getElementById('submissionContent');
+            content.innerHTML = formatSubmissionContent(data.submission);
+            
+            // Show grading panel
+            document.getElementById('gradingPanel').style.display = 'block';
+            
+            // Pre-fill grading form if already graded
+            if (data.submission.is_graded) {
+                const form = document.getElementById('gradingForm');
+                form.grade.value = data.submission.grade;
+                form.feedback.value = data.submission.feedback;
+                
+                // Fill rubric scores if available
+                if (data.submission.rubric_scores) {
+                    Object.entries(data.submission.rubric_scores).forEach(([criterion, score], index) => {
+                        const input = form[`criterion_${index + 1}`];
+                        if (input) input.value = score;
+                    });
+                }
+            }
+            
+            // Load AI analysis if available
+            if (data.submission.ai_analysis) {
+                showAIAnalysis(data.submission.ai_analysis);
+            }
+            
+            // Update selected state
+            document.querySelectorAll('.submission-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelector(`[data-submission-id="${submissionId}"]`).classList.add('selected');
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// Format submission content based on type
+function formatSubmissionContent(submission) {
+    if (submission.assignment_type === 'code') {
+        return `
+            <div class="code-editor" id="submissionCode">${submission.content}</div>
+        `;
+    } else if (submission.assignment_type === 'essay') {
+        return `
+            <div class="essay-content">${submission.content}</div>
+        `;
+    } else if (submission.assignment_type === 'quiz') {
+        return formatQuizSubmission(submission);
+    } else {
+        return formatFileSubmission(submission);
+    }
+}
+
+// Auto grade submission
+function autoGrade() {
+    if (!currentSubmissionId) return;
+    
+    fetch(`/api/assignments/{{ assignment.id }}/grade/${currentSubmissionId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ use_ai: true })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            // Update form with AI grading results
+            const form = document.getElementById('gradingForm');
+            form.grade.value = data.submission.grade;
+            form.feedback.value = data.submission.feedback;
+            
+            // Show AI analysis
+            if (data.submission.ai_analysis) {
+                showAIAnalysis(data.submission.ai_analysis);
+            }
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Show AI analysis
+function showAIAnalysis(analysis) {
+    const panel = document.getElementById('aiAnalysisPanel');
+    const content = document.getElementById('aiAnalysisContent');
+    
+    content.innerHTML = `
+        <div class="mb-3">
+            <h6>Strengths</h6>
+            <ul class="list-unstyled">
+                ${analysis.strengths.map(s => `<li><i class="bi bi-check-circle-fill text-success me-2"></i>${s}</li>`).join('')}
+            </ul>
+        </div>
+        <div class="mb-3">
+            <h6>Areas for Improvement</h6>
+            <ul class="list-unstyled">
+                ${analysis.improvements.map(i => `<li><i class="bi bi-info-circle-fill text-primary me-2"></i>${i}</li>`).join('')}
+            </ul>
+        </div>
+        ${analysis.plagiarism_score !== undefined ? `
+        <div class="mb-3">
+            <h6>Originality Score</h6>
+            <div class="progress">
+                <div class="progress-bar bg-${analysis.plagiarism_score > 80 ? 'success' : 'warning'}" 
+                     style="width: ${analysis.plagiarism_score}%">
+                    ${analysis.plagiarism_score}%
+                </div>
+            </div>
+        </div>
+        ` : ''}
+    `;
+    
+    panel.style.display = 'block';
+}
+
+// Handle grading form submission
+document.getElementById('gradingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!currentSubmissionId) return;
+    
+    const formData = new FormData(this);
+    const data = {
+        grade: parseFloat(formData.get('grade')),
+        feedback: formData.get('feedback'),
+        use_ai: formData.get('use_ai') === 'on',
+        rubric_scores: {}
+    };
+    
+    // Collect rubric scores
+    document.querySelectorAll('[name^="criterion_"]').forEach(input => {
+        if (input.value) {
+            data.rubric_scores[input.name.replace('criterion_', '')] = parseFloat(input.value);
+        }
+    });
+    
+    fetch(`/api/assignments/{{ assignment.id }}/grade/${currentSubmissionId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            // Show success message
+            const toast = new bootstrap.Toast(document.getElementById('gradingToast'));
+            document.getElementById('gradingToastBody').textContent = data.message;
+            toast.show();
+            
+            // Update submission list
+            const submissionItem = document.querySelector(`[data-submission-id="${currentSubmissionId}"]`);
+            if (submissionItem) {
+                submissionItem.classList.add('bg-light');
+                const badge = submissionItem.querySelector('.badge');
+                if (badge) {
+                    badge.className = 'badge bg-success';
+                    badge.textContent = `${data.submission.grade}/${assignment.points}`;
+                }
+            }
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+</script>
+
+<!-- Success Toast -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="gradingToast" class="toast" role="alert">
+        <div class="toast-header">
+            <i class="bi bi-check-circle-fill text-success me-2"></i>
+            <strong class="me-auto">Success</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body" id="gradingToastBody"></div>
+    </div>
+</div>
+{% endblock %}
+{% endblock %} 
