@@ -231,6 +231,10 @@ def register_user(email, password, name, role, username, date_of_birth):
     if any(user['email'] == email for user in users):
         return False, "Email already registered"
     
+    # Check if username already exists
+    if any(user.get('username') == username for user in users):
+        return False, "Username already taken"
+    
     # Create new user
     new_user = {
         'id': len(users) + 1,
@@ -244,7 +248,7 @@ def register_user(email, password, name, role, username, date_of_birth):
     }
     
     users.append(new_user)
-    save_data(users, 'users')
+    save_data('users', users)
     return True, "Registration successful"
 
 def login_user(login_id, password):
