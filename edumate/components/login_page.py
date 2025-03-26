@@ -462,10 +462,60 @@ def show_enhanced_login_page():
         # Close login card div
         st.markdown('</div>', unsafe_allow_html=True)
         
-        # Add a functional registration button outside the form
-        if st.button(get_translation('create_account'), key="enhanced_register_btn"):
-            st.session_state.current_page = 'register'
-            st.rerun()
+        # Add functional Create Account button
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            # Create a styled button for registration
+            st.markdown(f'''
+            <div style="text-align: center; margin-top: 15px;">
+                <button 
+                    id="create_account_btn" 
+                    style="
+                        background: linear-gradient(90deg, #6366f1, #06b6d4);
+                        color: white;
+                        border: none;
+                        border-radius: 10px;
+                        padding: 12px 20px;
+                        font-weight: bold;
+                        width: 100%;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        margin-top: 10px;
+                    "
+                    onmouseover="this.style.background='linear-gradient(90deg, #06b6d4, #6366f1)'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 20px -5px rgba(99, 102, 241, 0.4)';"
+                    onmouseout="this.style.background='linear-gradient(90deg, #6366f1, #06b6d4)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';"
+                >
+                    {get_translation('create_account')}
+                </button>
+            </div>
+            <script>
+                document.getElementById('create_account_btn').addEventListener('click', function() {{
+                    // Using Streamlit's postMessage API to communicate with Python
+                    window.parent.postMessage(
+                        {{
+                            type: "streamlit:setComponentValue",
+                            value: true,
+                            dataType: "bool",
+                            key: "register_clicked" 
+                        }}, "*"
+                    );
+                }});
+            </script>
+            ''', unsafe_allow_html=True)
+            
+            # Handle the click event from the styled button
+            if "register_clicked" not in st.session_state:
+                st.session_state.register_clicked = False
+                
+            if st.session_state.get("register_clicked", False):
+                st.session_state.register_clicked = False  # Reset
+                st.session_state.current_page = 'register'
+                st.rerun()
+                
+            # Plain Streamlit button as fallback
+            if st.button(get_translation('create_account'), key="enhanced_register_btn"):
+                st.session_state.current_page = 'register'
+                st.rerun()
         
         # Footer
         st.markdown(f'''

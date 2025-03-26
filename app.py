@@ -945,12 +945,30 @@ def show_login_page():
 def show_register_page():
     st.title("Register for EduMate")
     
+    # Remove any CSS that might be affecting form inputs
+    st.markdown("""
+    <style>
+    /* Ensure password fields are fully visible and interactive */
+    input[type="password"],
+    div:has(> input[type="password"]) {
+        opacity: 1 !important;
+        height: auto !important;
+        min-height: unset !important;
+        visibility: visible !important;
+        display: block !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     with st.form("register_form"):
         name = st.text_input("Full Name")
         email = st.text_input("Email")
         username = st.text_input("Username (must be unique)")
         date_of_birth = st.date_input("Date of Birth")
-        password = st.text_input("Password", type="password")
+        
+        # Fix password field
+        password = st.text_input("Password", type="password", key="register_password")
+        
         role = st.selectbox("Role", ["teacher", "student"])
         submit = st.form_submit_button("Register")
         
@@ -2662,12 +2680,12 @@ def main():
         from edumate.components.login_page import show_enhanced_login_page
         show_enhanced_login_page()
         
-        # Add a direct button to register page below the enhanced login form
-        st.markdown("---")
-        st.write("Don't have an account?")
-        if st.button("Register Now", key="direct_register_btn"):
-            st.session_state.current_page = 'register'
-            st.rerun()
+        # Remove the duplicate register button - the enhanced login page already has one
+        # st.markdown("---")
+        # st.write("Don't have an account?")
+        # if st.button("Register Now", key="direct_register_btn"):
+        #     st.session_state.current_page = 'register'
+        #     st.rerun()
     elif st.session_state.current_page == 'register':
         show_register_page()
     elif st.session_state.current_page == 'dashboard':
