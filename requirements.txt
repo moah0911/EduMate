@@ -28,6 +28,7 @@ requests==2.31.0
 
 # Internationalization
 Flask-Babel==3.1.0
+matplotlib==3.7.1
 
 # Optional dependencies (uncomment if needed)
 # opencv-python-headless==4.8.1.78
