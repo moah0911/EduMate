@@ -5,20 +5,20 @@ def show_enhanced_login_page():
     import streamlit as st
     from edumate.components.language_selector import get_translation
     import base64
+    import time
     
     # Check if function exists in session state
     if 'login_function' not in st.session_state:
         st.error("Login function not available. Please reload the application.")
         return
     
-    # Define available languages with their native names and codes
+    # Define available languages focusing on Indian languages
     languages = {
         "English": "en",
         "हिंदी": "hi",
-        "Español": "es", 
-        "Français": "fr",
-        "中文": "zh",
-        "العربية": "ar"
+        "తెలుగు": "te",
+        "தமிழ்": "ta",
+        "ಕನ್ನಡ": "kn"
     }
     
     # Make sure language is initialized in session state
@@ -417,8 +417,16 @@ def show_enhanced_login_page():
             # Process form submission
             if submit:
                 # Use the login function from session state instead of importing
-                login_id = st.session_state.login_id
-                password = st.session_state.password
+                login_id = st.session_state.login_id.strip() if 'login_id' in st.session_state else ""
+                password = st.session_state.password if 'password' in st.session_state else ""
+                
+                if not login_id:
+                    st.error(get_translation("please_enter_email_username"))
+                    return
+                
+                if not password:
+                    st.error(get_translation("please_enter_password"))
+                    return
                 
                 # Call the login function from session state
                 success, result = st.session_state.login_function(login_id, password)
@@ -426,6 +434,8 @@ def show_enhanced_login_page():
                     st.session_state.logged_in = True
                     st.session_state.current_user = result
                     st.session_state.current_page = 'dashboard'
+                    st.success(get_translation("login_successful"))
+                    time.sleep(1)  # Small delay to show success message before redirect
                     st.rerun()
                 else:
                     st.error(result)

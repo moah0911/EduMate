@@ -100,6 +100,9 @@ if 'current_page' not in st.session_state:
 if 'language' not in st.session_state:
     st.session_state.language = 'en'  # Default language is English
 
+# Always ensure the login function is available and up-to-date
+st.session_state.login_function = login_user
+
 # Create data directory if it doesn't exist
 if not os.path.exists('data'):
     os.makedirs('data')
@@ -256,15 +259,22 @@ def register_user(email, password, name, role, username, date_of_birth):
     return True, "Registration successful"
 
 def login_user(login_id, password):
-    """Login user with logging"""
+    """Authenticate user with provided credentials"""
+    if not login_id or not password:
+        return False, "Please enter both username/email and password"
+        
     users = load_data('users')
     
     for user in users:
-        # Allow login with email or username
-        if (user['email'] == login_id or user.get('username') == login_id) and user['password'] == password:
-            log_access(user['id'], "User logged in")
+        # Allow login with email or username (case insensitive)
+        if ((user.get('email', '').lower() == login_id.lower() or 
+             user.get('username', '').lower() == login_id.lower()) and 
+            user.get('password') == password):
+            # Log successful login
+            log_access(user['id'], "User logged in successfully")
             return True, user
     
+    # Log failed login attempt
     log_error("Failed login attempt", {"login_id": login_id})
     return False, "Invalid username/email or password"
 
@@ -476,11 +486,42 @@ def delete_assignment(assignment_id, teacher_id):
     return True, "Assignment deleted successfully"
 
 def submit_assignment(assignment_id, student_id, content, uploaded_file=None):
+    """Submit an assignment with strict deadline enforcement"""
     submissions = load_data('submissions')
+    assignments = load_data('assignments')
     
     # Check if already submitted
     if any(sub['assignment_id'] == assignment_id and sub['student_id'] == student_id for sub in submissions):
         return False, "You have already submitted this assignment"
+    
+    # Get the assignment to check deadline
+    assignment = next((a for a in assignments if a['id'] == assignment_id), None)
+    if not assignment:
+        return False, "Assignment not found"
+    
+    # Check if deadline has passed
+    due_date_str = assignment.get('due_date')
+    if not due_date_str:
+        return False, "Assignment has no due date"
+        
+    current_time = datetime.now()
+    due_date = None
+    
+    # Parse due date (handle different formats)
+    try:
+        # Try ISO format first
+        due_date = datetime.fromisoformat(due_date_str)
+    except ValueError:
+        try:
+            # Try date-only format
+            due_date = datetime.strptime(due_date_str, "%Y-%m-%d")
+        except ValueError:
+            return False, "Invalid due date format"
+    
+    # Enforce deadline
+    if current_time > due_date:
+        formatted_date = due_date.strftime("%Y-%m-%d %H:%M")
+        return False, f"Deadline passed. This assignment was due on {formatted_date}"
     
     # Handle file upload if provided
     file_info = None
@@ -510,7 +551,7 @@ def submit_assignment(assignment_id, student_id, content, uploaded_file=None):
         'student_id': student_id,
         'content': content,
         'file_info': file_info,
-        'submitted_at': datetime.now().isoformat(),
+        'submitted_at': current_time.isoformat(),
         'status': 'submitted',
         'score': None,
         'feedback': None,
@@ -518,8 +559,22 @@ def submit_assignment(assignment_id, student_id, content, uploaded_file=None):
     }
     
     submissions.append(new_submission)
-    save_data(submissions, 'submissions')
-    return True, "Assignment submitted successfully"
+    save_data('submissions', submissions)
+    
+    # Calculate time until deadline
+    time_remaining = due_date - current_time
+    days_remaining = time_remaining.days
+    hours_remaining = time_remaining.seconds // 3600
+    minutes_remaining = (time_remaining.seconds % 3600) // 60
+    
+    if days_remaining > 0:
+        time_message = f"Submitted with {days_remaining} days, {hours_remaining} hours remaining"
+    elif hours_remaining > 0:
+        time_message = f"Submitted with {hours_remaining} hours, {minutes_remaining} minutes remaining"
+    else:
+        time_message = f"Submitted with only {minutes_remaining} minutes remaining!"
+    
+    return True, f"Assignment submitted successfully! {time_message}"
 
 def grade_submission(submission_id, score, feedback, use_ai_grading=False):
     submissions = load_data('submissions')
@@ -2218,40 +2273,81 @@ def show_student_dashboard():
                         st.rerun()
     
     with tab3:
-        # Join course by code only
-        st.subheader("Join a Course")
+        # Show available courses to join instead of requiring a code
+        st.subheader("Available Courses")
         
-        # Create a styled container for the join course form with instructions
+        # Create a styled container with instructions
         st.markdown("""
-        <div style="padding:10px; border-radius:5px; background-color:#1f2937; margin-bottom:15px; border:1px solid #4e5d78;">
-            <p style="color:#e2e8f0; font-size:16px; margin:0;">Enter the course code provided by your teacher to join a course.</p>
+        <div style="background-color:#3a506b; padding:15px; border-radius:5px; margin-bottom:10px">
+            <p style="color:#e2e8f0; font-size:16px; margin:0;">Browse available courses and send a request to join. Teachers will approve your requests.</p>
         </div>
         """, unsafe_allow_html=True)
         
-        # Create a form with a more visible course code input
-        with st.form("join_course_form"):
-            st.markdown("<p style='color:#ffffff; font-weight:bold; font-size:18px;'>Course Code:</p>", unsafe_allow_html=True)
+        # Load all courses
+        all_courses = load_data('courses')
+        user_id = st.session_state.current_user['id']
+        
+        # Filter courses the student is not already in or has pending requests for
+        available_courses = [
+            course for course in all_courses 
+            if user_id not in course.get('students', []) and 
+               user_id not in course.get('pending_requests', [])
+        ]
+        
+        if not available_courses:
+            st.info("No new courses available to join at this time.")
+        else:
+            # Display available courses in a visually appealing way
+            for course in available_courses:
+                with st.container():
+                    col1, col2 = st.columns([3, 1])
+                    
+                    with col1:
+                        teacher = get_user_by_id(course['teacher_id'])
+                        teacher_name = teacher['name'] if teacher else "Unknown"
+                        
+                        st.markdown(f"### {course['name']}")
+                        st.write(f"**Teacher:** {teacher_name}")
+                        st.write(f"**Description:** {course['description']}")
+                        start_date = course.get('start_date', 'Not specified')
+                        end_date = course.get('end_date', 'Not specified')
+                        st.write(f"**Period:** {start_date} to {end_date}")
+                    
+                    with col2:
+                        if st.button("Request to Join", key=f"join_{course['id']}"):
+                            success, message = request_to_join_course(course['id'], user_id)
+                            if success:
+                                st.success(message)
+                                time.sleep(1)
+                                st.rerun()
+                            else:
+                                st.error(message)
+                    
+                    st.markdown("---")
+        
+        # Show pending requests
+        pending_courses = [
+            course for course in all_courses 
+            if user_id in course.get('pending_requests', [])
+        ]
+        
+        if pending_courses:
+            st.subheader("Your Pending Requests")
             
-            # Add a more visible text input
-            course_code = st.text_input("", 
-                                      placeholder="Enter 6-character course code",
-                                      key="course_code_input")
-            
-            # Make the join button more visible
-            submit = st.form_submit_button("Join Course")
-            
-            if submit:
-                if not course_code:
-                    st.error("Please enter a course code")
-                else:
-                    # Standardize code format before checking
-                    formatted_code = course_code.strip().upper()
-                    success, message = request_to_join_course(formatted_code, st.session_state.current_user['id'])
-                    if success:
-                        st.success(message)
-                        st.rerun()
-                    else:
-                        st.error(message)
+            for course in pending_courses:
+                with st.container():
+                    teacher = get_user_by_id(course['teacher_id'])
+                    teacher_name = teacher['name'] if teacher else "Unknown"
+                    
+                    st.markdown(f"### {course['name']}")
+                    st.write(f"**Teacher:** {teacher_name}")
+                    st.write(f"**Status:** Waiting for teacher approval")
+                    st.markdown("---")
+    
+    # Back button
+    if st.button("Back to Dashboard", key="back_to_dashboard_btn"):
+        st.session_state.current_page = 'dashboard'
+        st.rerun()
 
 def show_course_detail():
     course = st.session_state.current_course
@@ -2367,32 +2463,123 @@ def show_course_assignments(course):
                             break
                     
                     if student_submission:
+                        st.success("✅ Assignment Submitted")
                         st.write("**Your submission:**")
                         st.write(student_submission.get('content', 'No content provided'))
                         
-                        if student_submission.get('grade'):
-                            st.write(f"**Grade:** {student_submission['grade']}/{assignment['points']}")
+                        # Show submission time
+                        submission_time = student_submission.get('submitted_at', 'Unknown')
+                        try:
+                            submission_datetime = datetime.fromisoformat(submission_time)
+                            st.write(f"**Submitted on:** {submission_datetime.strftime('%Y-%m-%d %H:%M')}")
+                            
+                            # If we know both dates, show how early it was submitted
+                            if 'due_date' in assignment:
+                                due_date = datetime.fromisoformat(assignment['due_date'])
+                                time_difference = due_date - submission_datetime
+                                days_early = time_difference.days
+                                hours_early = time_difference.seconds // 3600
+                                
+                                if days_early > 0:
+                                    st.write(f"**Submitted {days_early} days, {hours_early} hours before deadline** 👍")
+                                elif hours_early > 0:
+                                    st.write(f"**Submitted {hours_early} hours before deadline** 👍")
+                        except (ValueError, TypeError):
+                            st.write(f"**Submitted on:** {submission_time}")
+                        
+                        # Show grade if available
+                        if student_submission.get('score') is not None:
+                            st.write(f"**Score:** {student_submission['score']} / {assignment.get('points', 100)}")
                             if student_submission.get('feedback'):
                                 st.write(f"**Feedback:** {student_submission['feedback']}")
                     else:
-                        with st.form(key=f"submit_assignment_{assignment['id']}"):
-                            submission_content = st.text_area("Your submission")
-                            submit_button = st.form_submit_button("Submit Assignment")
+                        # Display deadline status with appropriate styling
+                        current_time = datetime.now()
+                        due_date = None
+                        deadline_status = ""
+                        deadline_color = ""
+                        time_remaining_text = ""
+                        
+                        due_date_str = assignment.get('due_date')
+                        if due_date_str:
+                            try:
+                                due_date = datetime.fromisoformat(due_date_str)
+                            except ValueError:
+                                try:
+                                    due_date = datetime.strptime(due_date_str, "%Y-%m-%d")
+                                except ValueError:
+                                    due_date = None
+                        
+                        if due_date:
+                            # Format deadline for display
+                            deadline_display = due_date.strftime("%Y-%m-%d %H:%M")
                             
-                            if submit_button:
-                                if not submission_content:
-                                    st.error("Please provide content for your submission")
+                            # Check if deadline has passed
+                            if current_time > due_date:
+                                deadline_status = "⚠️ DEADLINE PASSED"
+                                deadline_color = "red"
+                                time_remaining_text = f"Due date was {deadline_display}"
+                            else:
+                                # Calculate remaining time
+                                time_remaining = due_date - current_time
+                                days = time_remaining.days
+                                hours = time_remaining.seconds // 3600
+                                minutes = (time_remaining.seconds % 3600) // 60
+                                
+                                if days > 3:
+                                    deadline_status = "✅ DUE SOON"
+                                    deadline_color = "green"
+                                    time_remaining_text = f"Due on {deadline_display} ({days} days remaining)"
+                                elif days > 0:
+                                    deadline_status = "⚠️ DUE SOON"
+                                    deadline_color = "orange"
+                                    time_remaining_text = f"Due on {deadline_display} ({days} days, {hours} hours remaining)"
+                                elif hours > 3:
+                                    deadline_status = "⚠️ DUE VERY SOON"
+                                    deadline_color = "orange"
+                                    time_remaining_text = f"Due on {deadline_display} ({hours} hours remaining)"
                                 else:
-                                    success, message = submit_assignment(
-                                        assignment_id=assignment['id'],
-                                        student_id=st.session_state.current_user['id'],
-                                        content=submission_content
-                                    )
-                                    if success:
-                                        st.success("Assignment submitted successfully!")
-                                        st.rerun()
+                                    deadline_status = "🔴 URGENT"
+                                    deadline_color = "red"
+                                    time_remaining_text = f"Due on {deadline_display} (ONLY {hours}h {minutes}m remaining!)"
+                        
+                        # Display submission status with visual indicators
+                        if deadline_status and deadline_color:
+                            st.markdown(f"<div style='padding: 10px; border-radius: 5px; background-color: {deadline_color}; color: white;'><strong>{deadline_status}</strong><br/>{time_remaining_text}</div>", unsafe_allow_html=True)
+                        
+                        # Only show submission form if deadline hasn't passed
+                        if due_date and current_time > due_date:
+                            st.error("❌ Assignment submissions are closed - deadline has passed")
+                        else:
+                            with st.form(key=f"submit_assignment_{assignment['id']}"):
+                                submission_content = st.text_area("Your submission", height=150)
+                                uploaded_file = st.file_uploader("Attach File (optional)", key=f"file_{assignment['id']}")
+                                submit_col, deadline_col = st.columns([1, 2])
+                                
+                                with submit_col:
+                                    submit_button = st.form_submit_button("Submit Assignment")
+                                
+                                with deadline_col:
+                                    if time_remaining_text:
+                                        st.markdown(f"<small>{time_remaining_text}</small>", unsafe_allow_html=True)
+                                
+                                if submit_button:
+                                    if not submission_content and not uploaded_file:
+                                        st.error("Please provide content for your submission or attach a file.")
                                     else:
-                                        st.error(message)
+                                        success, message = submit_assignment(
+                                            assignment_id=assignment['id'],
+                                            student_id=st.session_state.current_user['id'],
+                                            content=submission_content,
+                                            uploaded_file=uploaded_file
+                                        )
+                                        
+                                        if success:
+                                            st.success(message)
+                                            time.sleep(1)
+                                            st.rerun()
+                                        else:
+                                            st.error(message)
 
 def show_course_quizzes(course):
     st.subheader("Quizzes")
@@ -2607,7 +2794,7 @@ def show_home_page():
     
     # Hero section
     st.markdown("<h1 style='text-align: center;'>Welcome to EduMate</h1>", unsafe_allow_html=True)
-    st.markdown("<h3 style='text-align: center;'>AI-Powered Education Platform</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center;'>AI-Powered Education</h3>", unsafe_allow_html=True)
     
     # Image
     st.image("https://img.freepik.com/free-vector/online-learning-isometric-concept_1284-17947.jpg")
@@ -2705,8 +2892,8 @@ def main():
     if 'current_user' not in st.session_state:
         st.session_state.current_user = None
     
-    if 'login_function' not in st.session_state:
-        st.session_state.login_function = login_user
+    # Always ensure the login function is available and up-to-date
+    st.session_state.login_function = login_user
     
     # Show sidebar navigation, but hide it on login and registration pages
     if st.session_state.current_page in ['login', 'register']:

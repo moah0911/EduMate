@@ -9,6 +9,21 @@
             "title": "The Complete Web Developer Course",
             "platform": "Udemy",
             "url": "https://www.udemy.com/course/the-complete-web-developer-course-2"
+        },
+        {
+            "title": "Java Programming Masterclass",
+            "platform": "Udemy",
+            "url": "https://www.udemy.com/course/java-the-complete-java-developer-course"
+        },
+        {
+            "title": "The Complete JavaScript Course",
+            "platform": "Udemy",
+            "url": "https://www.udemy.com/course/the-complete-javascript-course"
+        },
+        {
+            "title": "Flutter & Dart - The Complete Guide",
+            "platform": "Udemy",
+            "url": "https://www.udemy.com/course/flutter-bootcamp-with-dart"
         }
     ],
     "data_analysis": [
@@ -21,6 +36,21 @@
             "title": "Data Analyst Nanodegree",
             "platform": "Udacity",
             "url": "https://www.udacity.com/course/data-analyst-nanodegree--nd002"
+        },
+        {
+            "title": "IBM Data Science Professional Certificate",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/professional-certificates/ibm-data-science"
+        },
+        {
+            "title": "Machine Learning A-Z",
+            "platform": "Udemy",
+            "url": "https://www.udemy.com/course/machinelearning"
+        },
+        {
+            "title": "Python for Data Science and Machine Learning Bootcamp",
+            "platform": "Udemy",
+            "url": "https://www.udemy.com/course/python-for-data-science-and-machine-learning-bootcamp"
         }
     ],
     "communication": [
@@ -33,6 +63,94 @@
             "title": "Public Speaking",
             "platform": "Coursera",
             "url": "https://www.coursera.org/learn/public-speaking"
+        },
+        {
+            "title": "Presentation Skills: Speechwriting, Slides and Delivery",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/learn/presentation-skills"
+        },
+        {
+            "title": "Business Communication Skills",
+            "platform": "edX",
+            "url": "https://www.edx.org/learn/business-communication"
+        }
+    ],
+    "design": [
+        {
+            "title": "Graphic Design Specialization",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/specializations/graphic-design"
+        },
+        {
+            "title": "UI / UX Design Specialization",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/specializations/ui-ux-design"
+        },
+        {
+            "title": "Adobe Photoshop CC - Essentials Training Course",
+            "platform": "Udemy",
+            "url": "https://www.udemy.com/course/adobe-photoshop-cc-essentials-training-course"
+        },
+        {
+            "title": "Learning Figma - UI/UX Design Essential Training",
+            "platform": "LinkedIn Learning",
+            "url": "https://www.linkedin.com/learning/learning-figma-2"
+        }
+    ],
+    "business": [
+        {
+            "title": "Business Foundations Specialization",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/specializations/wharton-business-foundations"
+        },
+        {
+            "title": "Project Management Professional (PMP) Certification",
+            "platform": "Udemy",
+            "url": "https://www.udemy.com/course/pmp-pmbok6-35-pdus"
+        },
+        {
+            "title": "Financial Markets",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/learn/financial-markets-global"
+        },
+        {
+            "title": "The Complete Digital Marketing Course",
+            "platform": "Udemy",
+            "url": "https://www.udemy.com/course/the-complete-digital-marketing-course"
+        }
+    ],
+    "healthcare": [
+        {
+            "title": "Introduction to Healthcare",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/learn/intro-to-healthcare"
+        },
+        {
+            "title": "Healthcare Informatics Specialization",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/specializations/healthcare-informatics"
+        },
+        {
+            "title": "Anatomy Specialization",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/specializations/anatomy"
+        }
+    ],
+    "cybersecurity": [
+        {
+            "title": "IBM Cybersecurity Analyst Professional Certificate",
+            "platform": "Coursera",
+            "url": "https://www.coursera.org/professional-certificates/ibm-cybersecurity-analyst"
+        },
+        {
+            "title": "Ethical Hacking - The Complete Course",
+            "platform": "Udemy",
+            "url": "https://www.udemy.com/course/ethical-hacking-the-complete-course"
+        },
+        {
+            "title": "CompTIA Security+ Certification",
+            "platform": "Udemy",
+            "url": "https://www.udemy.com/course/securityplus"
         }
     ]
 }

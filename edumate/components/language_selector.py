@@ -6,16 +6,15 @@ def show_language_selector():
     """
     Display a language selector in the sidebar and handle language switching
     
-    Supports multiple languages: English, Hindi, Spanish, French, Chinese, and Arabic
+    Supports multiple languages with focus on Indian languages
     """
     # Define available languages with their display names and codes
     languages = {
         "English": "en",
         "हिंदी (Hindi)": "hi",
-        "Español (Spanish)": "es", 
-        "Français (French)": "fr",
-        "中文 (Chinese)": "zh",
-        "العربية (Arabic)": "ar"
+        "తెలుగు (Telugu)": "te",
+        "தமிழ் (Tamil)": "ta",
+        "ಕನ್ನಡ (Kannada)": "kn"
     }
     
     # Get current language from session state or set default
@@ -26,7 +25,7 @@ def show_language_selector():
     st.sidebar.markdown("""
     <div style="background-color:#2a4c7d; color:white; padding:10px; 
          border-radius:5px; margin:5px 0; text-align:center; font-weight:bold;">
-        Language / भाषा / Idioma
+        Languages of India / भारत की भाषाएँ
     </div>
     """, unsafe_allow_html=True)
     
@@ -34,7 +33,7 @@ def show_language_selector():
     selected_language_name = st.sidebar.selectbox(
         "Select Language",
         list(languages.keys()),
-        index=list(languages.values()).index(st.session_state.language),
+        index=list(languages.values()).index(st.session_state.language) if st.session_state.language in languages.values() else 0,
         key="language_selector"
     )
     
@@ -61,28 +60,40 @@ def get_translation(key, language=None):
         language = st.session_state.get('language', 'en')
     
     # Try to load translations from JSON files
-    translations_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'translations')
-    translation_file = os.path.join(translations_path, f"{language}.json")
+    # First check in data/translations
+    data_translations_path = os.path.join('data', 'translations')
+    translation_file = os.path.join(data_translations_path, f"{language}.json")
+    
+    translations = {}
     
     try:
+        # Try data/translations directory first
         if os.path.exists(translation_file):
             with open(translation_file, 'r', encoding='utf-8') as f:
                 translations = json.load(f)
                 if key in translations:
                     return translations[key]
-    except Exception as e:
-        print(f"Error loading translation: {e}")
-    
-    # Fallback to English or the key itself
-    if language != 'en':
-        try:
-            english_file = os.path.join(translations_path, "en.json")
-            if os.path.exists(english_file):
-                with open(english_file, 'r', encoding='utf-8') as f:
+        
+        # Fall back to edumate/translations if needed
+        edumate_translations_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'translations')
+        edumate_translation_file = os.path.join(edumate_translations_path, f"{language}.json")
+        
+        if os.path.exists(edumate_translation_file):
+            with open(edumate_translation_file, 'r', encoding='utf-8') as f:
+                translations = json.load(f)
+                if key in translations:
+                    return translations[key]
+        
+        # If translation not found and language is not English, try English
+        if language != 'en':
+            en_file = os.path.join(data_translations_path, "en.json")
+            if os.path.exists(en_file):
+                with open(en_file, 'r', encoding='utf-8') as f:
                     translations = json.load(f)
                     if key in translations:
                         return translations[key]
-        except Exception:
-            pass
+    except Exception as e:
+        st.error(f"Error loading translation: {e}")
     
+    # If we get here, no translation was found
     return key

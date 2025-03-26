@@ -4,20 +4,109 @@
         "problem_solving": 8,
         "system_design": 7,
         "teamwork": 6,
-        "communication": 6
+        "communication": 6,
+        "version_control": 7,
+        "testing": 8,
+        "continuous_integration": 7,
+        "agile_methodologies": 8
     },
     "data_science": {
         "statistics": 9,
         "programming": 7,
         "data_visualization": 8,
         "machine_learning": 8,
-        "communication": 7
+        "communication": 7,
+        "big_data": 7,
+        "domain_knowledge": 6,
+        "data_wrangling": 9,
+        "critical_thinking": 8
     },
     "product_management": {
         "business_acumen": 8,
         "communication": 9,
         "leadership": 8,
         "technical_understanding": 7,
-        "problem_solving": 8
+        "problem_solving": 8,
+        "user_research": 8,
+        "strategic_thinking": 9,
+        "project_management": 8,
+        "data_analysis": 7
+    },
+    "cybersecurity": {
+        "network_security": 9,
+        "cryptography": 8,
+        "security_protocols": 9,
+        "ethical_hacking": 8,
+        "risk_assessment": 8,
+        "secure_coding": 7,
+        "incident_response": 9,
+        "security_architecture": 8,
+        "compliance_knowledge": 7
+    },
+    "ux_ui_design": {
+        "user_research": 9,
+        "wireframing": 8,
+        "prototyping": 9,
+        "visual_design": 8,
+        "accessibility": 7,
+        "usability_testing": 8,
+        "interaction_design": 9,
+        "design_thinking": 8,
+        "communication": 7
+    },
+    "cloud_engineering": {
+        "cloud_platforms": 9,
+        "infrastructure_as_code": 8,
+        "networking": 8,
+        "security": 7,
+        "containerization": 8,
+        "automation": 9,
+        "troubleshooting": 8,
+        "cost_optimization": 7,
+        "monitoring": 8
+    },
+    "digital_marketing": {
+        "seo": 9,
+        "content_marketing": 8,
+        "social_media": 9,
+        "analytics": 8,
+        "email_marketing": 7,
+        "paid_advertising": 8,
+        "customer_segmentation": 7,
+        "marketing_automation": 7,
+        "brand_management": 8
+    },
+    "healthcare_informatics": {
+        "clinical_knowledge": 8,
+        "data_analysis": 7,
+        "health_information_systems": 9,
+        "regulatory_compliance": 8,
+        "privacy_security": 9,
+        "healthcare_workflow": 8,
+        "ehr_systems": 9,
+        "interoperability_standards": 7,
+        "quality_improvement": 8
+    },
+    "artificial_intelligence": {
+        "machine_learning": 9,
+        "deep_learning": 9,
+        "nlp": 8,
+        "computer_vision": 8,
+        "data_science": 8,
+        "algorithm_design": 9,
+        "programming": 8,
+        "mathematics": 9,
+        "research_skills": 8
+    },
+    "teaching": {
+        "subject_knowledge": 9,
+        "communication": 9,
+        "curriculum_design": 8,
+        "classroom_management": 8,
+        "assessment_methods": 7,
+        "adaptability": 8,
+        "technology_integration": 7,
+        "empathy": 9,
+        "continuous_learning": 8
     }
 }
