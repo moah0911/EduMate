@@ -945,28 +945,21 @@ def show_login_page():
 def show_register_page():
     st.title("Register for EduMate")
     
-    # Remove all custom scripts and styles that might be causing issues
-    
-    with st.form("register_form", clear_on_submit=False):
+    # Create the form without nested columns for password field
+    with st.form("register_form"):
         name = st.text_input("Full Name")
         email = st.text_input("Email")
         username = st.text_input("Username (must be unique)")
         date_of_birth = st.date_input("Date of Birth")
         
-        # Create two columns
-        pw_col1, pw_col2 = st.columns([3, 1])
+        # Simple password field without type="password"
+        password = st.text_input("Password", key="register_pwd")
         
-        with pw_col1:
-            # Use the simplest possible password field solution
-            # No type="password" which causes input problems
-            password = st.text_input("Password", type="text", key="register_pwd")
-        
-        with pw_col2:
-            # Add simple note about password visibility
-            st.write(" ")  # Add some space
-            st.caption("For security, consider typing in a private location")
+        # Add security note outside the nested structure
+        st.caption("For security, consider typing in a private location")
         
         role = st.selectbox("Role", ["teacher", "student"])
+        # Make sure the submit button is directly within the form
         submit = st.form_submit_button("Register")
         
         if submit:
