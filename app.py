@@ -945,26 +945,26 @@ def show_login_page():
 def show_register_page():
     st.title("Register for EduMate")
     
-    # Remove all CSS modifications - they're causing issues
+    # Remove all custom scripts and styles that might be causing issues
     
-    with st.form("register_form"):
+    with st.form("register_form", clear_on_submit=False):
         name = st.text_input("Full Name")
         email = st.text_input("Email")
         username = st.text_input("Username (must be unique)")
         date_of_birth = st.date_input("Date of Birth")
         
-        # Password handling - use a regular text field and handle masking in Python
-        password_visible = st.checkbox("Show password", value=False)
-        if password_visible:
-            # Show password as plain text when checkbox is checked
-            password = st.text_input("Password", key="password_visible_field")
-        else:
-            # Use a workaround - don't use type="password" which has issues
-            password = st.text_input("Password", key="password_masked_field")
-            if password:
-                # Show a masked version of the password to the user
-                masked_password = "•" * len(password)
-                st.write(f"Password: {masked_password}")
+        # Create two columns
+        pw_col1, pw_col2 = st.columns([3, 1])
+        
+        with pw_col1:
+            # Use the simplest possible password field solution
+            # No type="password" which causes input problems
+            password = st.text_input("Password", type="text", key="register_pwd")
+        
+        with pw_col2:
+            # Add simple note about password visibility
+            st.write(" ")  # Add some space
+            st.caption("For security, consider typing in a private location")
         
         role = st.selectbox("Role", ["teacher", "student"])
         submit = st.form_submit_button("Register")
