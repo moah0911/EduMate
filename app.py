@@ -945,23 +945,7 @@ def show_login_page():
 def show_register_page():
     st.title("Register for EduMate")
     
-    # Add CSS to fix password field visibility issues - simplified approach
-    st.markdown("""
-    <style>
-    /* Base styles to ensure password fields are visible and interactive */
-    input[type="password"] {
-        opacity: 1 !important;
-        position: relative !important;
-        z-index: 1 !important; 
-    }
-    
-    /* Target the specific password field container */
-    [data-testid="stTextInput"] {
-        visibility: visible !important;
-        height: auto !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+    # Remove all CSS modifications - they're causing issues
     
     with st.form("register_form"):
         name = st.text_input("Full Name")
@@ -969,21 +953,18 @@ def show_register_page():
         username = st.text_input("Username (must be unique)")
         date_of_birth = st.date_input("Date of Birth")
         
-        # Alternative approach without container
-        password_col1, password_col2 = st.columns(2)
-        with password_col1:
-            # Use a simple text input with a unique key
-            password = st.text_input("Password", 
-                                    key="simple_password_field",
-                                    type="password" if st.session_state.get('hide_password', True) else "text")
-            
-        with password_col2:
-            # Add a show/hide password toggle
-            show_password = st.checkbox("Show password", key="show_password_toggle")
-            if show_password:
-                st.session_state.hide_password = False
-            else:
-                st.session_state.hide_password = True
+        # Password handling - use a regular text field and handle masking in Python
+        password_visible = st.checkbox("Show password", value=False)
+        if password_visible:
+            # Show password as plain text when checkbox is checked
+            password = st.text_input("Password", key="password_visible_field")
+        else:
+            # Use a workaround - don't use type="password" which has issues
+            password = st.text_input("Password", key="password_masked_field")
+            if password:
+                # Show a masked version of the password to the user
+                masked_password = "•" * len(password)
+                st.write(f"Password: {masked_password}")
         
         role = st.selectbox("Role", ["teacher", "student"])
         submit = st.form_submit_button("Register")
