@@ -2661,6 +2661,13 @@ def main():
     elif st.session_state.current_page == 'login':
         from edumate.components.login_page import show_enhanced_login_page
         show_enhanced_login_page()
+        
+        # Add a direct button to register page below the enhanced login form
+        st.markdown("---")
+        st.write("Don't have an account?")
+        if st.button("Register Now", key="direct_register_btn"):
+            st.session_state.current_page = 'register'
+            st.rerun()
     elif st.session_state.current_page == 'register':
         show_register_page()
     elif st.session_state.current_page == 'dashboard':
