@@ -456,12 +456,16 @@ def show_enhanced_login_page():
             st.markdown(f'''
             <p style="text-align: center; margin-top: 20px; font-size: 16px; color: #000000;">
                 {get_translation('dont_have_account')} 
-                <a href="#" style="color: #6366f1; text-decoration: none; font-weight: 600; font-size: 16px;">{get_translation('create_account')}</a>
             </p>
             ''', unsafe_allow_html=True)
         
         # Close login card div
         st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Add a functional registration button outside the form
+        if st.button(get_translation('create_account'), key="enhanced_register_btn"):
+            st.session_state.current_page = 'register'
+            st.rerun()
         
         # Footer
         st.markdown(f'''
